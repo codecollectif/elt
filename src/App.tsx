@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { NarrativeScreen } from "./components/phases/NarrativeScreen";
+import { KeyboardHelp } from "./components/ui/KeyboardHelp";
 import { campaign } from "./data/campaign";
-import { DungeonScreen } from "./screens/DungeonScreen";
-import { MapScreen } from "./screens/MapScreen";
 import useLocalStorage from "./hooks/useLocalStorage";
+import { DungeonScreen } from "./screens/DungeonScreen";
+import { IntroScreen } from "./screens/IntroScreen";
+import { MapScreen } from "./screens/MapScreen";
 
 export default function App() {
   const [hasSeenIntro, setHasSeenIntro] = useLocalStorage<boolean>(
@@ -14,36 +15,13 @@ export default function App() {
   const [selectedDungeonId, setSelectedDungeonId] = useState<number | null>(
     null,
   );
-  const [introIndex, setIntroIndex] = useState(0);
   const [maxUnlockedDungeon, setMaxUnlockedDungeon] = useLocalStorage<number>(
     "maxUnlockedDungeon",
     0,
   );
 
   if (!hasSeenIntro) {
-    const phase = campaign.intro[introIndex];
-    if (phase && phase.type === "NARRATIVE") {
-      return (
-        <NarrativeScreen
-          key={phase.id}
-          phase={phase}
-          onNext={() => {
-            if (introIndex + 1 < campaign.intro.length) {
-              setIntroIndex((i) => i + 1);
-            } else {
-              setHasSeenIntro(true);
-            }
-          }}
-          onExit={() => {
-            // Skips the rest of the intro on ESC
-            setHasSeenIntro(true);
-          }}
-        />
-      );
-    } else {
-      // Fallback
-      setHasSeenIntro(true);
-    }
+    return <IntroScreen onComplete={() => setHasSeenIntro(true)} />;
   }
 
   if (currentScreen === "DUNGEON" && selectedDungeonId !== null) {
@@ -53,12 +31,9 @@ export default function App() {
       return (
         <div>
           <p>Ce donjon n'existe pas encore.</p>
-          <dl style={{ position: "absolute", top: 0, right: 0 }}>
-            <dt>
-              <kbd>échap</kbd>
-            </dt>
-            <dd>Revenir à la carte</dd>
-          </dl>
+          <KeyboardHelp
+            shortcuts={[{ keys: ["échap"], description: "Revenir à la carte" }]}
+          />
           {/* We need a simple keyboard listener to go back if it crashes, but 
               for now we'll just let MapScreen handle it cleanly or add a quick fallback */}
           <button

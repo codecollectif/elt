@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
 import type { TypingChallengePhase } from "../../types/game";
+import { KeyboardHelp } from "../ui/KeyboardHelp";
 
 interface Props {
   phase: TypingChallengePhase;
@@ -120,27 +121,14 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
         Erreurs: {errors}
       </div>
 
-      <dl style={{ position: "absolute", top: 0, right: 0 }}>
-        {isFinishedAll ? (
-          <>
-            <dt>
-              <kbd>entrée</kbd>
-            </dt>
-            <dd>Continuer</dd>
-          </>
-        ) : (
-          <>
-            <dt>
-              <kbd>clavier</kbd>
-            </dt>
-            <dd>Taper le code</dd>
-          </>
-        )}
-        <dt>
-          <kbd>échap</kbd>
-        </dt>
-        <dd>Revenir à la carte</dd>
-      </dl>
+      <KeyboardHelp
+        shortcuts={[
+          isFinishedAll
+            ? { keys: ["entrée"], description: "Continuer" }
+            : { keys: ["clavier"], description: "Taper le code" },
+          { keys: ["échap"], description: "Revenir à la carte" },
+        ]}
+      />
     </div>
   );
 }

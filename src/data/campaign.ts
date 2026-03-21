@@ -191,7 +191,7 @@ la boucle ne s'arrêtera jamais !`,
         "while () {}",
         "while (condition) { repeatSomething(); }",
         "let i = 0; while (i < 10) { console.log(i); i++; }",
-        'let answer = "no"; while (answer !== "yes") { answer = prompt("are you sure?"); }'
+        'let answer = "no"; while (answer !== "yes") { answer = prompt("are you sure?"); }',
       ],
     },
     {
@@ -228,7 +228,7 @@ Montre-lui.`,
       concept: "à toi de jouer",
       mockPromptReturns: ["non", "jamais", "oui"],
       initialCode:
-        "// Tant que le Gardien ne répond pas \"oui\":\n// 1. Demande-lui \"tu m'ouvres ?\" via prompt().\n// 2. S'il répond \"non\", affiche \"sésame\".\n// 3. S'il répond \"jamais\", affiche \"pitié\".\n// Après qu'il ait dit \"oui\", affiche \"j'entre\".\nlet answer = \"\";\n",
+        '// Tant que le Gardien ne répond pas "oui":\n// 1. Demande-lui "tu m\'ouvres ?" via prompt().\n// 2. S\'il répond "non", affiche "sésame".\n// 3. S\'il répond "jamais", affiche "pitié".\n// Après qu\'il ait dit "oui", affiche "j\'entre".\nlet answer = "";\n',
       expectedOutput: "sésame\npitié\nj'entre",
     },
   ],
@@ -276,5 +276,13 @@ Entre.`,
   mapScreenText: `=== Entre les touches ===
 
 `,
-  dungeons: [dungeon0, dungeon1, dungeon2, dungeon3, dungeon4, dungeon5, dungeon6],
+  dungeons: [
+    dungeon0,
+    dungeon1,
+    dungeon2,
+    dungeon3,
+    dungeon4,
+    dungeon5,
+    dungeon6,
+  ],
 };

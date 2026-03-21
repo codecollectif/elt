@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { KeyboardHelp } from "../components/ui/KeyboardHelp";
 import { useKeyboard } from "../hooks/useKeyboard";
-
-import { campaign } from "../data/campaign";
 
 interface Props {
   content: string;
@@ -52,12 +51,18 @@ export function MapScreen({ content, onSelectDungeon }: Props) {
         ))}
 
       {isFinished && (
-        <dl style={{ position: "absolute", top: 0, right: 0 }}>
-          <dt>
-            <kbd>0</kbd>, <kbd>1</kbd>, etc.
-          </dt>
-          <dd>Ouvrir un chapitre</dd>
-        </dl>
+        <KeyboardHelp
+          shortcuts={[
+            {
+              keyNode: (
+                <>
+                  <kbd>0</kbd>, <kbd>1</kbd>, etc.
+                </>
+              ),
+              description: "Entrer dans un lieu",
+            },
+          ]}
+        />
       )}
     </>
   );

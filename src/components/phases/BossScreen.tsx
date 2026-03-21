@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
 import type { BossPhase } from "../../types/game";
+import { KeyboardHelp } from "../ui/KeyboardHelp";
 
 interface Props {
   phase: BossPhase;
@@ -12,7 +13,10 @@ declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
       "code-input": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTextAreaElement> & { language: string; value?: string },
+        React.HTMLAttributes<HTMLTextAreaElement> & {
+          language: string;
+          value?: string;
+        },
         HTMLTextAreaElement
       >;
     }
@@ -48,8 +52,11 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
     if (phase.mockPromptReturns) {
       let promptIndex = 0;
       window.prompt = (_msg?: string) => {
-        const returns = phase.mockPromptReturns!;
-        const res = returns[promptIndex] !== undefined ? returns[promptIndex] : returns[returns.length - 1];
+        const returns = phase.mockPromptReturns ?? [];
+        const res =
+          returns[promptIndex] !== undefined
+            ? returns[promptIndex]
+            : returns[returns.length - 1];
         promptIndex++;
         return res;
       };
@@ -86,7 +93,7 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
         }
       }
     }
-  }, [phase.expectedOutput]);
+  }, [phase.expectedOutput, phase.mockPromptReturns]);
 
   // Ecouteur natif pour empêcher le comportement par défaut (nouvelle ligne) du WebComponent code-input
   // qui intercepte l'événement avant React.
@@ -160,7 +167,11 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
           borderRadius: "4px",
         }}
       >
-        <code-input ref={inputRef} language="JavaScript" value={phase.initialCode} />
+        <code-input
+          ref={inputRef}
+          language="JavaScript"
+          value={phase.initialCode}
+        />
       </div>
 
       <div
@@ -177,28 +188,25 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
         {output ?? "/* Résultat de l'exécution... */"}
       </div>
 
-      <dl style={{ position: "absolute", top: 0, right: 0, opacity: 0.8 }}>
-        {isSuccess ? (
-          <>
-            <dt>
-              <kbd>shift</kbd> + <kbd>entrée</kbd>
-            </dt>
-            <dd style={{ color: "green" }}>Continuer</dd>
-          </>
-        ) : (
-          <>
-            <dt>
-              <kbd>ctrl</kbd> + <kbd>entrée</kbd>
-            </dt>
-            <dd>Exécuter le code</dd>
-          </>
-        )}
-
-        <dt>
-          <kbd>échap</kbd>
-        </dt>
-        <dd>Revenir à la carte</dd>
-      </dl>
+      <KeyboardHelp
+        shortcuts={[
+          ...(isSuccess
+            ? [
+                {
+                  keys: ["shift", "entrée"],
+                  description: "Continuer",
+                  color: "green",
+                },
+              ]
+            : [
+                {
+                  keys: ["ctrl", "entrée"],
+                  description: "Exécuter le code",
+                },
+              ]),
+          { keys: ["échap"], description: "Revenir à la carte" },
+        ]}
+      />
     </div>
   );
 }

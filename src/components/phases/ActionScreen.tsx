@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
+import { useTypewriter } from "../../hooks/useTypewriter";
 import type { ActionPhase } from "../../types/game";
+import { KeyboardHelp } from "../ui/KeyboardHelp";
 
 interface Props {
   phase: ActionPhase;
@@ -9,22 +11,7 @@ interface Props {
 }
 
 export function ActionScreen({ phase, onNext, onExit }: Props) {
-  const [revealPosition, setRevealPosition] = useState<number>(0);
-
-  useEffect(() => {
-    phase && setRevealPosition(0);
-  }, [phase]);
-
-  useEffect(() => {
-    if (revealPosition < phase.content.length) {
-      const timeoutId = setTimeout(() => {
-        setRevealPosition((old) => old + 1);
-      }, 50);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [revealPosition, phase.content]);
-
-  const isFinished = revealPosition === phase.content.length;
+  const { revealedText, isFinished } = useTypewriter(phase.content);
 
   useKeyboard(
     useCallback(
@@ -52,35 +39,32 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
 
   return (
     <>
-      {phase.content
-        .slice(0, revealPosition)
-        .split("\n\n")
-        .map((p) => (
-          <p key={`p-${p}`}>
-            {p.split("\n").map((line, lIndex) => (
-              <React.Fragment key={`l-${line}`}>
-                {lIndex !== 0 && <br />}
-                {line}
-              </React.Fragment>
-            ))}
-          </p>
-        ))}
+      {revealedText.split("\n\n").map((p) => (
+        <p key={`p-${p}`}>
+          {p.split("\n").map((line, lIndex) => (
+            <React.Fragment key={`l-${line}`}>
+              {lIndex !== 0 && <br />}
+              {line}
+            </React.Fragment>
+          ))}
+        </p>
+      ))}
 
       {isFinished && (
-        <dl style={{ position: "absolute", top: 0, right: 0 }}>
-          <dt>
-            <kbd>{phase.actionKey.toLowerCase()}</kbd>
-          </dt>
-          <dd>Ouvrir le lien</dd>
-          <dt>
-            <kbd>shift</kbd> + <kbd>entrée</kbd>
-          </dt>
-          <dd style={{ color: "green" }}>Continuer</dd>
-          <dt>
-            <kbd>échap</kbd>
-          </dt>
-          <dd>Revenir à la carte</dd>
-        </dl>
+        <KeyboardHelp
+          shortcuts={[
+            {
+              keys: [phase.actionKey.toLowerCase()],
+              description: "Ouvrir le lien",
+            },
+            {
+              keys: ["shift", "entrée"],
+              description: "Continuer",
+              color: "green",
+            },
+            { keys: ["échap"], description: "Revenir à la carte" },
+          ]}
+        />
       )}
     </>
   );

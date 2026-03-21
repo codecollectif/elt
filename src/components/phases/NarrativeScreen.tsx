@@ -1,6 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
+import { useTypewriter } from "../../hooks/useTypewriter";
 import type { NarrativePhase } from "../../types/game";
+import { KeyboardHelp } from "../ui/KeyboardHelp";
 
 interface Props {
   phase: NarrativePhase;
@@ -9,25 +11,7 @@ interface Props {
 }
 
 export function NarrativeScreen({ phase, onNext, onExit }: Props) {
-  const [revealPosition, setRevealPosition] = useState<number>(0);
-
-  // Reset animation when phase changes
-  useEffect(() => {
-    phase && setRevealPosition(0);
-  }, [phase]);
-
-  // Typewriter effect
-  useEffect(() => {
-    if (revealPosition < phase.content.length) {
-      const timeoutId = setTimeout(() => {
-        setRevealPosition((old) => old + 1);
-      }, 50);
-      return () => clearTimeout(timeoutId);
-    }
-  }, [revealPosition, phase.content]);
-
-  // Keyboard controls
-  const isFinished = revealPosition === phase.content.length;
+  const { revealedText, isFinished } = useTypewriter(phase.content);
 
   useKeyboard(
     useCallback(
@@ -43,31 +27,24 @@ export function NarrativeScreen({ phase, onNext, onExit }: Props) {
 
   return (
     <>
-      {phase.content
-        .slice(0, revealPosition)
-        .split("\n\n")
-        .map((p) => (
-          <p key={`p-${p}`}>
-            {p.split("\n").map((line, lIndex) => (
-              <React.Fragment key={`l-${line}`}>
-                {lIndex !== 0 && <br />}
-                {line}
-              </React.Fragment>
-            ))}
-          </p>
-        ))}
+      {revealedText.split("\n\n").map((p) => (
+        <p key={`p-${p}`}>
+          {p.split("\n").map((line, lIndex) => (
+            <React.Fragment key={`l-${line}`}>
+              {lIndex !== 0 && <br />}
+              {line}
+            </React.Fragment>
+          ))}
+        </p>
+      ))}
 
       {isFinished && (
-        <dl style={{ position: "absolute", top: 0, right: 0 }}>
-          <dt>
-            <kbd>entrée</kbd>
-          </dt>
-          <dd>Continuer</dd>
-          <dt>
-            <kbd>échap</kbd>
-          </dt>
-          <dd>Revenir à la carte</dd>
-        </dl>
+        <KeyboardHelp
+          shortcuts={[
+            { keys: ["entrée"], description: "Continuer" },
+            { keys: ["échap"], description: "Revenir à la carte" },
+          ]}
+        />
       )}
     </>
   );
