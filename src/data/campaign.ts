@@ -56,6 +56,7 @@ export const dungeon1: Dungeon = {
       id: "d1-p1",
       type: "NARRATIVE",
       content: `Tu es dans les entrailles de la machine.
+
 Dans cet espace vide,
 ta voix n'a pas de son.
 

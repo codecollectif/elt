@@ -59,7 +59,7 @@ export function MapScreen({ content, onSelectDungeon }: Props) {
                   <kbd>0</kbd>, <kbd>1</kbd>, etc.
                 </>
               ),
-              description: "Entrer dans un lieu",
+              description: "Ouvrir un chapitre",
             },
           ]}
         />
