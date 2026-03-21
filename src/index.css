@@ -40,3 +40,14 @@ dl {
   padding: 2rem;
   position: relative;
 }
+
+.code-input_dialog-container {
+  display: none;
+}
+
+code-input:not(:has(.code-input_keyboard-navigation-instructions:empty)):has(textarea:not([data-code-input-fallback]):focus):not(.code-input_mouse-focused) textarea,
+code-input:not(:has(.code-input_keyboard-navigation-instructions:empty)):has(textarea:not([data-code-input-fallback]):focus):not(.code-input_mouse-focused):not(.code-input_pre-element-styled) pre code,
+code-input:not(:has(.code-input_keyboard-navigation-instructions:empty)):has(textarea:not([data-code-input-fallback]):focus):not(.code-input_mouse-focused).code-input_pre-element-styled pre {
+	padding-top: var(--padding-top,16px) !important;
+ 	min-height: calc(100% - var(--padding-top,16px) - var(--padding-bottom,16px));
+}

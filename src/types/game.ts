@@ -1,0 +1,64 @@
+export type PhaseType =
+  | "NARRATIVE"
+  | "ACTION"
+  | "TYPING_CHALLENGE"
+  | "QUIZ"
+  | "BOSS";
+
+export interface BasePhase {
+  id: string; // Identifier for the phase
+  type: PhaseType;
+}
+
+export interface NarrativePhase extends BasePhase {
+  type: "NARRATIVE";
+  content: string; // The text to reveal
+}
+
+export interface ActionPhase extends BasePhase {
+  type: "ACTION";
+  content: string; // Instructions before taking action
+  actionKey: string; // The key to trigger the action (e.g. 'Enter')
+  onAction: () => void; // Side-effect (e.g., opening a window)
+}
+
+export interface TypingChallengePhase extends BasePhase {
+  type: "TYPING_CHALLENGE";
+  concept: string; // Technical concept ("console.log")
+  challenges: string[]; // List of strings to type perfectly
+}
+
+// Stub for feature phases
+export interface QuizPhase extends BasePhase {
+  type: "QUIZ";
+  question: string;
+  options: { key: string; text: string; isCorrect: boolean }[];
+}
+
+export interface BossPhase extends BasePhase {
+  type: "BOSS";
+  concept: string; // E.g., "Mets en pratique ce que tu as appris"
+  initialCode?: string; // E.g., "// Écris ton code\n"
+  expectedOutput?: string; // If provided, the code must log this exactly to proceed
+  mockPromptReturns?: string[]; // E.g., ["non", "jamais", "oui"]
+}
+
+export type Phase =
+  | NarrativePhase
+  | ActionPhase
+  | TypingChallengePhase
+  | QuizPhase
+  | BossPhase;
+
+export interface Dungeon {
+  id: number;
+  title: string;
+  concept?: string;
+  phases: Phase[];
+}
+
+export interface Campaign {
+  intro: Phase[];
+  mapScreenText: string;
+  dungeons: Dungeon[];
+}

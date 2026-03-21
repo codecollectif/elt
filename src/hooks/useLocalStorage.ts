@@ -8,7 +8,7 @@ function getItem<T>(key: string): T | null {
   const data = window.localStorage.getItem(key);
 
   if (data != null) {
-    return JSON.parse(data) as T;
+    return JSON.parse(data);
   }
 
   return data;
@@ -20,13 +20,13 @@ function removeItem(key: string) {
 
 type Jsonable = null | undefined | boolean | string | number | object;
 
-type DispatchAction<T extends Jsonable> = T | ((prevState: T) => T);
+type DispatchAction<T extends Jsonable> = T | ((prevState: T | null) => T);
 
 export default function useLocalStorage<T extends Jsonable>(
   key: string,
   initialValue: T,
 ) {
-  const [value, setValue] = useState<T>(() => {
+  const [value, setValue] = useState<T | null>(() => {
     const data = getItem<T>(key);
 
     return data ?? initialValue;
@@ -48,7 +48,7 @@ export default function useLocalStorage<T extends Jsonable>(
   }
 
   function clearState() {
-    setValue(undefined as T);
+    setValue(null);
     removeItem(key);
   }
 
