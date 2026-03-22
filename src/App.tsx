@@ -4,8 +4,8 @@ import { campaign } from "./data/campaign";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { DungeonScreen } from "./screens/DungeonScreen";
 import { IntroScreen } from "./screens/IntroScreen";
-import { MapScreen } from "./screens/MapScreen";
 import { SandboxScreen } from "./screens/SandboxScreen";
+import { TableOfContentsScreen } from "./screens/TableOfContentsScreen";
 
 export default function App() {
   const [hasSeenIntro, setHasSeenIntro] = useLocalStorage<boolean>(
@@ -13,8 +13,8 @@ export default function App() {
     false,
   );
   const [currentScreen, setCurrentScreen] = useState<
-    "MAP" | "DUNGEON" | "SANDBOX"
-  >("MAP");
+    "TABLE_OF_CONTENTS" | "DUNGEON" | "SANDBOX"
+  >("TABLE_OF_CONTENTS");
   const [selectedDungeonId, setSelectedDungeonId] = useState<number | null>(
     null,
   );
@@ -30,7 +30,7 @@ export default function App() {
   if (currentScreen === "DUNGEON" && selectedDungeonId !== null) {
     const dungeon = campaign.dungeons.find((d) => d.id === selectedDungeonId);
     if (!dungeon) {
-      // If the dungeon doesn't exist yet, we just go back to the map
+      // If the dungeon doesn't exist yet, we just go back to the table of contents
       return (
         <div>
           <p>Ce donjon n'existe pas encore.</p>
@@ -38,10 +38,10 @@ export default function App() {
             shortcuts={[{ keys: ["échap"], description: "Revenir à la carte" }]}
           />
           {/* We need a simple keyboard listener to go back if it crashes, but 
-              for now we'll just let MapScreen handle it cleanly or add a quick fallback */}
+              for now we'll just let TableOfContentsScreen handle it cleanly or add a quick fallback */}
           <button
             type="button"
-            onClick={() => setCurrentScreen("MAP")}
+            onClick={() => setCurrentScreen("TABLE_OF_CONTENTS")}
             style={{ display: "none" }}
           >
             Back
@@ -53,25 +53,25 @@ export default function App() {
     return (
       <DungeonScreen
         dungeon={dungeon}
-        onExit={() => setCurrentScreen("MAP")}
+        onExit={() => setCurrentScreen("TABLE_OF_CONTENTS")}
         onComplete={() => {
           if (selectedDungeonId !== null) {
             setMaxUnlockedDungeon((prev) =>
               Math.max(prev ?? 0, selectedDungeonId + 1),
             );
           }
-          setCurrentScreen("MAP");
+          setCurrentScreen("TABLE_OF_CONTENTS");
         }}
       />
     );
   }
 
   if (currentScreen === "SANDBOX") {
-    return <SandboxScreen onExit={() => setCurrentScreen("MAP")} />;
+    return <SandboxScreen onExit={() => setCurrentScreen("TABLE_OF_CONTENTS")} />;
   }
 
-  const mapContent =
-    campaign.mapScreenText +
+  const tableOfContentsText =
+    campaign.tableOfContentsScreenText +
     "\n\n" +
     campaign.dungeons
       .filter((d) => d.id <= (maxUnlockedDungeon ?? 0))
@@ -80,8 +80,8 @@ export default function App() {
     ((maxUnlockedDungeon ?? 0) >= 6 ? "\n\n[7] Le bac à sable" : "");
 
   return (
-    <MapScreen
-      content={mapContent}
+    <TableOfContentsScreen
+      content={tableOfContentsText}
       onSelectDungeon={(id) => {
         // Prevent launching a locked dungeon manually
         if (id === 7 && (maxUnlockedDungeon ?? 0) >= 6) {
@@ -90,6 +90,10 @@ export default function App() {
           setSelectedDungeonId(id);
           setCurrentScreen("DUNGEON");
         }
+      }}
+      onReset={() => {
+        localStorage.clear();
+        window.location.reload();
       }}
     />
   );

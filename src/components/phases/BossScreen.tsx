@@ -165,6 +165,7 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
           marginBottom: "1rem",
           border: "1px solid #333",
           borderRadius: "4px",
+          fontStyle: "normal",
         }}
       >
         <code-input
@@ -181,6 +182,7 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
           minHeight: "100px",
           border: "1px solid #444",
           fontFamily: "monospace",
+          fontStyle: "normal",
           whiteSpace: "pre-wrap",
           color: isSuccess ? "#0f0" : "#ccc",
         }}
@@ -204,7 +206,7 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
                   description: "Exécuter le code",
                 },
               ]),
-          { keys: ["échap"], description: "Revenir à la carte" },
+          { keys: ["échap"], description: "Revenir au sommaire" },
         ]}
       />
     </div>

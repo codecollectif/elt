@@ -20,6 +20,7 @@ export function IntroScreen({ onComplete }: Props) {
     <NarrativeScreen
       key={phase.id}
       phase={phase}
+      hideEscape
       onNext={() => {
         if (introIndex + 1 < campaign.intro.length) {
           setIntroIndex((i) => i + 1);

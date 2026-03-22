@@ -59,6 +59,6 @@ export interface Dungeon {
 
 export interface Campaign {
   intro: Phase[];
-  mapScreenText: string;
+  tableOfContentsScreenText: string;
   dungeons: Dungeon[];
 }

@@ -134,7 +134,7 @@ console.log("Amuse-toi bien !");
             keys: ["ctrl", "entrée"],
             description: "Exécuter le code",
           },
-          { keys: ["échap"], description: "Revenir à la carte" },
+          { keys: ["échap"], description: "Revenir au sommaire" },
         ]}
       />
     </div>

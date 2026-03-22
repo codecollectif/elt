@@ -27,7 +27,7 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
         else if (event.key === "Enter" && !event.shiftKey) {
           phase.onAction();
         }
-        // Escape returns to the map
+        // Escape returns to the table of contents
         else if (event.key === "Escape") {
           onExit();
         }
@@ -39,10 +39,12 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
 
   return (
     <>
-      {revealedText.split("\n\n").map((p) => (
-        <p key={`p-${p}`}>
+      {revealedText.split("\n\n").map((p, pIndex) => (
+        // biome-ignore lint/suspicious/noArrayIndexKey: statique
+        <p key={`p-${pIndex}`}>
           {p.split("\n").map((line, lIndex) => (
-            <React.Fragment key={`l-${line}`}>
+            // biome-ignore lint/suspicious/noArrayIndexKey: statique
+            <React.Fragment key={`l-${lIndex}`}>
               {lIndex !== 0 && <br />}
               {line}
             </React.Fragment>
@@ -62,7 +64,7 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
               description: "Continuer",
               color: "green",
             },
-            { keys: ["échap"], description: "Revenir à la carte" },
+            { keys: ["échap"], description: "Revenir au sommaire" },
           ]}
         />
       )}

@@ -26,11 +26,11 @@ Quand tu te sentiras à l'aise, reviens.`,
     {
       id: "d0-p2",
       type: "ACTION",
-      content: `🗝️ L'épreuve du Clavier
-
-Ouvre le lieu d’entraînement :
+      content: `Ouvre le lieu d’entraînement :
 
 https://www.keybr.com/fr
+
+Passe l'épreuve du Clavier.
 
 Objectifs :
 - regarder et taper
@@ -113,7 +113,7 @@ on la stocke dans une "constante" (const) ou une "variable" (let).`,
       challenges: [
         "const answer = prompt(question);",
         'const name = prompt("Quel est ton nom ?");',
-        'const quest = prompt("Quelle est ta quête ?");',
+        'const quest = prompt("Quelle est ta mission ?");',
         'const color = prompt("Quelle est ta couleur préférée ?");',
       ],
     },
@@ -121,8 +121,10 @@ on la stocke dans une "constante" (const) ou une "variable" (let).`,
       id: "d2-p3",
       type: "BOSS",
       concept: "interroge les ombres",
+      mockPromptReturns: ["Romain"],
       initialCode:
         "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n\n// Demande son nom à l'écho avec prompt() et stocke-le dans une constante.\n// Affiche ensuite cette constante avec console.log().\n",
+      expectedOutput: "Romain",
     },
   ],
 };
@@ -274,7 +276,7 @@ Entre les touches, il y a un monde.
 Entre.`,
     },
   ],
-  mapScreenText: `=== Entre les touches ===
+  tableOfContentsScreenText: `=== Entre les touches ===
 
 `,
   dungeons: [

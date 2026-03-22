@@ -5,9 +5,10 @@ import { useKeyboard } from "../hooks/useKeyboard";
 interface Props {
   content: string;
   onSelectDungeon: (id: number) => void;
+  onReset: () => void;
 }
 
-export function MapScreen({ content, onSelectDungeon }: Props) {
+export function TableOfContentsScreen({ content, onSelectDungeon, onReset }: Props) {
   const [revealPosition, setRevealPosition] = useState<number>(0);
 
   useEffect(() => {
@@ -25,9 +26,19 @@ export function MapScreen({ content, onSelectDungeon }: Props) {
     (event) => {
       if (!isFinished) return;
 
+      if (event.key === "Delete") {
+        if (
+          window.confirm("Veux-tu tout effacer et recommencer depuis le début ?")
+        ) {
+          onReset();
+        }
+        return;
+      }
+
       // Listen for numbers to trigger dungeons directly
       const num = parseInt(event.key, 10);
       if (!Number.isNaN(num)) {
+        event.preventDefault();
         onSelectDungeon(num);
       }
     },
@@ -39,10 +50,12 @@ export function MapScreen({ content, onSelectDungeon }: Props) {
       {content
         .slice(0, revealPosition)
         .split("\n\n")
-        .map((p) => (
-          <p key={`p-${p}`}>
+        .map((p, pIndex) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: statique
+          <p key={`p-${pIndex}`}>
             {p.split("\n").map((line, lIndex) => (
-              <React.Fragment key={`l-${line}`}>
+              // biome-ignore lint/suspicious/noArrayIndexKey: statique
+              <React.Fragment key={`l-${lIndex}`}>
                 {lIndex !== 0 && <br />}
                 {line}
               </React.Fragment>
@@ -60,6 +73,11 @@ export function MapScreen({ content, onSelectDungeon }: Props) {
                 </>
               ),
               description: "Ouvrir un chapitre",
+            },
+            {
+              keys: ["suppr"],
+              description: "Recommencer l'aventure",
+              color: "#ff6b6b", // Un rouge doux
             },
           ]}
         />

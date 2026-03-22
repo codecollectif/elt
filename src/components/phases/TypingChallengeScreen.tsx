@@ -32,6 +32,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
 
       if (isFinishedAll) {
         if (event.key === "Enter") {
+          event.preventDefault();
           onNext();
         }
         return;
@@ -84,6 +85,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
           border: "1px solid #333",
           borderRadius: "4px",
           fontFamily: "monospace",
+          fontStyle: "normal",
           fontSize: "16px",
           display: "flex",
           flexDirection: "column",
@@ -126,7 +128,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
           isFinishedAll
             ? { keys: ["entrée"], description: "Continuer", color: "green" }
             : { keys: ["clavier"], description: "Taper le code" },
-          { keys: ["échap"], description: "Revenir à la carte" },
+          { keys: ["échap"], description: "Revenir au sommaire" },
         ]}
       />
     </div>

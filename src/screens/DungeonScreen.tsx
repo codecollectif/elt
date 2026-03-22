@@ -24,7 +24,7 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
     if (currentPhaseIndex + 1 < dungeon.phases.length) {
       setCurrentPhaseIndex((prev) => prev + 1);
     } else {
-      onComplete(); // Dungeon is finished, return to map
+      onComplete(); // Dungeon is finished, return to table of contents
     }
   };
 
