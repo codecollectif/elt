@@ -7,7 +7,7 @@ interface Props {
 }
 
 export function SandboxScreen({ onExit }: Props) {
-  const [output, setOutput] = useState<string>("");
+  const [output, setOutput] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
@@ -96,6 +96,7 @@ export function SandboxScreen({ onExit }: Props) {
           marginBottom: "1rem",
           border: "1px solid #333",
           borderRadius: "4px",
+          fontStyle: "normal",
         }}
       >
         <code-input
@@ -121,6 +122,7 @@ console.log("Amuse-toi bien !");
           minHeight: "100px",
           border: "1px solid #444",
           fontFamily: "monospace",
+          fontStyle: "normal",
           whiteSpace: "pre-wrap",
           color: "#ccc",
         }}

@@ -139,12 +139,15 @@ export const dungeon3: Dungeon = {
       type: "NARRATIVE",
       content: `Le temple se dresse devant toi avec des règles strictes.
 
-Tu ne peux avancer que si tes conditions sont remplies.
+Une silhouette massive garde la porte.
+C'est le Gardien.
+
+Il te regarde, hésite, puis lâche :
+"Je fais une pause. Surveille la porte.
+Personne de moins de 18 ans ne passe."
 
 Le mot-clé "if" (si) permet d'exécuter du code,
-mais uniquement quand une condition est vraie.
-
-Par exemple, vérifier si tu as l'âge requis pour cette aventure.`,
+mais uniquement quand une condition est vraie.`,
     },
     {
       id: "d3-p2",
@@ -161,9 +164,10 @@ Par exemple, vérifier si tu as l'âge requis pour cette aventure.`,
       id: "d3-p3",
       type: "BOSS",
       concept: "l'oracle des conditions",
+      mockPromptReturns: ["15"],
       initialCode:
-        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// L'Oracle exige un certain âge.\n// Crée une variable 'age' à 15.\n// Si l'âge est < 18, affiche \"Accès refusé !\".\n",
-      expectedOutput: "Accès refusé !",
+        '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// Un voyageur approche. Demande-lui son âge via prompt().\n// Si l\'âge est < 18, affiche "Trop jeune !"\n// puis affiche "Reviens dans X ans." (où X = 18 - age).\n',
+      expectedOutput: "Trop jeune !\nReviens dans 3 ans.",
     },
   ],
 };
@@ -217,7 +221,7 @@ export const dungeon5: Dungeon = {
       id: "d5-p1",
       type: "NARRATIVE",
       content: `Le sol tremble.
-Le Gardien s'éveille.
+Le Gardien apparaît.
 
 Il bloque la sortie.
 Il exige de voir ce que tu as compris :

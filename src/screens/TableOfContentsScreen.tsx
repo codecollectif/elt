@@ -8,8 +8,19 @@ interface Props {
   onReset: () => void;
 }
 
-export function TableOfContentsScreen({ content, onSelectDungeon, onReset }: Props) {
-  const [revealPosition, setRevealPosition] = useState<number>(0);
+// Persiste entre les remounts du composant (contrairement à useRef)
+let lastSeenContent = "";
+
+export function TableOfContentsScreen({
+  content,
+  onSelectDungeon,
+  onReset,
+}: Props) {
+  const alreadySeen =
+    lastSeenContent.length > 0 && content.startsWith(lastSeenContent);
+  const [revealPosition, setRevealPosition] = useState<number>(
+    alreadySeen ? content.length : 0,
+  );
 
   useEffect(() => {
     if (revealPosition < content.length) {
@@ -18,7 +29,9 @@ export function TableOfContentsScreen({ content, onSelectDungeon, onReset }: Pro
       }, 50);
       return () => clearTimeout(timeoutId);
     }
-  }, [revealPosition, content.length]);
+    // Mémorise le contenu une fois entièrement affiché
+    lastSeenContent = content;
+  }, [revealPosition, content]);
 
   const isFinished = revealPosition === content.length;
 
@@ -28,7 +41,9 @@ export function TableOfContentsScreen({ content, onSelectDungeon, onReset }: Pro
 
       if (event.key === "Delete") {
         if (
-          window.confirm("Veux-tu tout effacer et recommencer depuis le début ?")
+          window.confirm(
+            "Veux-tu tout effacer et recommencer depuis le début ?",
+          )
         ) {
           onReset();
         }

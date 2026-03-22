@@ -9,23 +9,9 @@ interface Props {
   onExit: () => void;
 }
 
-declare module "react" {
-  namespace JSX {
-    interface IntrinsicElements {
-      "code-input": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTextAreaElement> & {
-          language: string;
-          value?: string;
-        },
-        HTMLTextAreaElement
-      >;
-    }
-  }
-}
-
 export function BossScreen({ phase, onNext, onExit }: Props) {
   // Contournement TypeScript pour le composant web personnalisé
-  const [output, setOutput] = useState<string>("");
+  const [output, setOutput] = useState<string | null>(null);
   const [isSuccess, setIsSuccess] = useState<boolean>(false);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 

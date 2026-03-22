@@ -1,9 +1,4 @@
-export type PhaseType =
-  | "NARRATIVE"
-  | "ACTION"
-  | "TYPING_CHALLENGE"
-  | "QUIZ"
-  | "BOSS";
+export type PhaseType = "NARRATIVE" | "ACTION" | "TYPING_CHALLENGE" | "BOSS";
 
 export interface BasePhase {
   id: string; // Identifier for the phase
@@ -29,12 +24,6 @@ export interface TypingChallengePhase extends BasePhase {
 }
 
 // Stub for feature phases
-export interface QuizPhase extends BasePhase {
-  type: "QUIZ";
-  question: string;
-  options: { key: string; text: string; isCorrect: boolean }[];
-}
-
 export interface BossPhase extends BasePhase {
   type: "BOSS";
   concept: string; // E.g., "Mets en pratique ce que tu as appris"
@@ -47,7 +36,6 @@ export type Phase =
   | NarrativePhase
   | ActionPhase
   | TypingChallengePhase
-  | QuizPhase
   | BossPhase;
 
 export interface Dungeon {
@@ -61,4 +49,18 @@ export interface Campaign {
   intro: Phase[];
   tableOfContentsScreenText: string;
   dungeons: Dungeon[];
+}
+
+declare module "react" {
+  namespace JSX {
+    interface IntrinsicElements {
+      "code-input": React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLTextAreaElement> & {
+          language: string;
+          value?: string;
+        },
+        HTMLTextAreaElement
+      >;
+    }
+  }
 }

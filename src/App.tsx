@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { KeyboardHelp } from "./components/ui/KeyboardHelp";
 import { campaign } from "./data/campaign";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { DungeonScreen } from "./screens/DungeonScreen";
@@ -29,25 +28,9 @@ export default function App() {
 
   if (currentScreen === "DUNGEON" && selectedDungeonId !== null) {
     const dungeon = campaign.dungeons.find((d) => d.id === selectedDungeonId);
-    if (!dungeon) {
-      // If the dungeon doesn't exist yet, we just go back to the table of contents
-      return (
-        <div>
-          <p>Ce donjon n'existe pas encore.</p>
-          <KeyboardHelp
-            shortcuts={[{ keys: ["échap"], description: "Revenir à la carte" }]}
-          />
-          {/* We need a simple keyboard listener to go back if it crashes, but 
-              for now we'll just let TableOfContentsScreen handle it cleanly or add a quick fallback */}
-          <button
-            type="button"
-            onClick={() => setCurrentScreen("TABLE_OF_CONTENTS")}
-            style={{ display: "none" }}
-          >
-            Back
-          </button>
-        </div>
-      );
+
+    if (dungeon == null) {
+      throw new Error("Dungeon not found");
     }
 
     return (
@@ -67,7 +50,9 @@ export default function App() {
   }
 
   if (currentScreen === "SANDBOX") {
-    return <SandboxScreen onExit={() => setCurrentScreen("TABLE_OF_CONTENTS")} />;
+    return (
+      <SandboxScreen onExit={() => setCurrentScreen("TABLE_OF_CONTENTS")} />
+    );
   }
 
   const tableOfContentsText =
