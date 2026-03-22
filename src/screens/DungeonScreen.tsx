@@ -66,8 +66,6 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
             onExit={onExit}
           />
         );
-      default:
-        return <div>Type de phase ({phase.type}) non implémenté.</div>;
     }
   };
 
