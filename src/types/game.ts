@@ -17,9 +17,9 @@ export interface NarrativePhase extends BasePhase {
 
 export interface ActionPhase extends BasePhase {
   type: "ACTION";
-  content: string; // Instructions before taking action
-  actionKey: string; // The key to trigger the action (e.g. 'Enter')
-  onAction: () => void; // Side-effect (e.g., opening a window)
+  content: string;
+  actionDescription: string; // The UI representation (e.g. "Ouvrir le lien")
+  onAction: () => void;
 }
 
 export interface TypingChallengePhase extends BasePhase {

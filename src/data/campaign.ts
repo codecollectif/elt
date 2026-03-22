@@ -39,7 +39,7 @@ Objectifs :
 
 Durée recommandée :
 10 à 15 minutes`,
-      actionKey: "Enter",
+      actionDescription: "Ouvrir le lieu d'entraînement",
       onAction: () => {
         window.open("https://www.keybr.com/fr", "_blank")?.focus();
       },
@@ -82,7 +82,7 @@ La commande "console.log()" imprime un message dans le journal système.`,
       type: "BOSS",
       concept: "affiche 'hello, universe!' dans la console",
       initialCode:
-        "// Écris ton code JavaScript ici\nconsole.log('hello, world!');",
+        "// Ce que tu connais :\n// console.log(expression);\n\n// Écris ton code JavaScript ici\n",
       expectedOutput: "hello, universe!",
     },
   ],
@@ -101,9 +101,9 @@ export const dungeon2: Dungeon = {
 Ici, on ne fait pas que parler dans le vide.
 On pose des questions.
 
-La commande "prompt()" permet d'interroger le voyageur.
+La commande "prompt()" permet d'interroger les ombres.
 
-Pour retenir sa réponse,
+Pour retenir leur réponse,
 on la stocke dans une "constante" (const) ou une "variable" (let).`,
     },
     {
@@ -120,9 +120,9 @@ on la stocke dans une "constante" (const) ou une "variable" (let).`,
     {
       id: "d2-p3",
       type: "BOSS",
-      concept: "pose une question",
+      concept: "interroge les ombres",
       initialCode:
-        "// Demande son âge au voyageur avec prompt() et stocke-le dans une constante.\n// Affiche ensuite cette constante avec console.log().\n",
+        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n\n// Demande son nom à l'écho avec prompt() et stocke-le dans une constante.\n// Affiche ensuite cette constante avec console.log().\n",
     },
   ],
 };
@@ -158,9 +158,9 @@ Par exemple, vérifier si tu as l'âge requis pour cette aventure.`,
     {
       id: "d3-p3",
       type: "BOSS",
-      concept: "le videur du code",
+      concept: "l'oracle des conditions",
       initialCode:
-        "// Crée une variable 'age' à 15.\n// Si l'âge est < 18, affiche \"c'est pas possible\".\n",
+        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// L'Oracle exige un certain âge.\n// Crée une variable 'age' à 15.\n// Si l'âge est < 18, affiche \"c'est pas possible\".\n",
       expectedOutput: "c'est pas possible",
     },
   ],
@@ -200,7 +200,7 @@ la boucle ne s'arrêtera jamais !`,
       type: "BOSS",
       concept: "Compte jusqu'à 10",
       initialCode:
-        "// Utilise une boucle while pour afficher de 1 jusqu'à 10.\nlet i = 0;\n",
+        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n// while (condition) { repeatSomething(); }\n\n// Utilise une boucle while pour afficher de 1 jusqu'à 10.\nlet i = 0;\n",
       expectedOutput: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
     },
   ],
@@ -215,11 +215,11 @@ export const dungeon5: Dungeon = {
       id: "d5-p1",
       type: "NARRATIVE",
       content: `Le sol tremble.
-La machine s'éveille.
+Le Gardien s'éveille.
 
-Elle bloque la sortie.
-Elle exige de voir ce que tu as compris :
-comment contrôler le temps et les actions.
+Il bloque la sortie.
+Il exige de voir ce que tu as compris :
+comment maîtriser le temps et les actions.
 
 Montre-lui.`,
     },
@@ -229,7 +229,7 @@ Montre-lui.`,
       concept: "à toi de jouer",
       mockPromptReturns: ["non", "jamais", "oui"],
       initialCode:
-        '// Tant que le Gardien ne répond pas "oui":\n// 1. Demande-lui "tu m\'ouvres ?" via prompt().\n// 2. S\'il répond "non", affiche "sésame".\n// 3. S\'il répond "jamais", affiche "pitié".\n// Après qu\'il ait dit "oui", affiche "j\'entre".\nlet answer = "";\n',
+        '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n// while (condition) { repeatSomething(); }\n\n// Tant que le Gardien ne répond pas "oui":\n// 1. Demande-lui "tu m\'ouvres ?" via prompt().\n// 2. S\'il répond "non", affiche "sésame".\n// 3. S\'il répond "jamais", affiche "pitié".\n// Après qu\'il ait dit "oui", affiche "j\'entre".\nlet answer = "";\n',
       expectedOutput: "sésame\npitié\nj'entre",
     },
   ],

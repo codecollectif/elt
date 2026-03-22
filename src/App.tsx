@@ -5,13 +5,16 @@ import useLocalStorage from "./hooks/useLocalStorage";
 import { DungeonScreen } from "./screens/DungeonScreen";
 import { IntroScreen } from "./screens/IntroScreen";
 import { MapScreen } from "./screens/MapScreen";
+import { SandboxScreen } from "./screens/SandboxScreen";
 
 export default function App() {
   const [hasSeenIntro, setHasSeenIntro] = useLocalStorage<boolean>(
     "hasSeenIntro",
     false,
   );
-  const [currentScreen, setCurrentScreen] = useState<"MAP" | "DUNGEON">("MAP");
+  const [currentScreen, setCurrentScreen] = useState<
+    "MAP" | "DUNGEON" | "SANDBOX"
+  >("MAP");
   const [selectedDungeonId, setSelectedDungeonId] = useState<number | null>(
     null,
   );
@@ -63,20 +66,27 @@ export default function App() {
     );
   }
 
+  if (currentScreen === "SANDBOX") {
+    return <SandboxScreen onExit={() => setCurrentScreen("MAP")} />;
+  }
+
   const mapContent =
     campaign.mapScreenText +
     "\n\n" +
     campaign.dungeons
       .filter((d) => d.id <= (maxUnlockedDungeon ?? 0))
       .map((d) => `[${d.id}] ${d.title}`)
-      .join("\n");
+      .join("\n") +
+    ((maxUnlockedDungeon ?? 0) >= 6 ? "\n\n[7] Le bac à sable" : "");
 
   return (
     <MapScreen
       content={mapContent}
       onSelectDungeon={(id) => {
         // Prevent launching a locked dungeon manually
-        if (id <= (maxUnlockedDungeon ?? 0)) {
+        if (id === 7 && (maxUnlockedDungeon ?? 0) >= 6) {
+          setCurrentScreen("SANDBOX");
+        } else if (id <= (maxUnlockedDungeon ?? 0)) {
           setSelectedDungeonId(id);
           setCurrentScreen("DUNGEON");
         }

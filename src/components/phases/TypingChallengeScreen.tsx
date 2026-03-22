@@ -124,7 +124,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
       <KeyboardHelp
         shortcuts={[
           isFinishedAll
-            ? { keys: ["entrée"], description: "Continuer" }
+            ? { keys: ["entrée"], description: "Continuer", color: "green" }
             : { keys: ["clavier"], description: "Taper le code" },
           { keys: ["échap"], description: "Revenir à la carte" },
         ]}

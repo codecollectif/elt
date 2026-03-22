@@ -24,7 +24,7 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
           onNext();
         }
         // Action key without Shift
-        else if (event.key === phase.actionKey && !event.shiftKey) {
+        else if (event.key === "Enter" && !event.shiftKey) {
           phase.onAction();
         }
         // Escape returns to the map
@@ -54,8 +54,8 @@ export function ActionScreen({ phase, onNext, onExit }: Props) {
         <KeyboardHelp
           shortcuts={[
             {
-              keys: [phase.actionKey.toLowerCase()],
-              description: "Ouvrir le lien",
+              keys: ["entrée"],
+              description: phase.actionDescription,
             },
             {
               keys: ["shift", "entrée"],
