@@ -29,7 +29,7 @@ export function IntroScreen({ onComplete }: Props) {
         }
       }}
       onExit={() => {
-        // Skips the rest of the intro on ESC
+        // Passe l'intro sur ÉCHAP
         onComplete();
       }}
     />

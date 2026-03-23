@@ -3,12 +3,12 @@ import { useEffect, useState } from "react";
 export function useTypewriter(text: string, speedMs = 50) {
   const [revealPosition, setRevealPosition] = useState(0);
 
-  // Reset animation when text changes
+  // Réinitialise l'animation si le texte change
   useEffect(() => {
     text && setRevealPosition(0);
   }, [text]);
 
-  // Typewriter effect
+  // Effet typewriter
   useEffect(() => {
     if (revealPosition < text.length) {
       const timeoutId = setTimeout(() => {

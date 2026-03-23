@@ -15,16 +15,16 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
   const [errors, setErrors] = useState(0);
   const [hasErrorBlink, setHasErrorBlink] = useState(false);
 
-  // Safety check if we exceeded the challenges array
+  // Vérification de la progression
   const isFinishedAll = currentChallengeIndex >= phase.challenges.length;
-  // Deriving the active string (can be undefined if finished)
+  // Détermination de la chaîne active
   const currentChallenge = isFinishedAll
     ? ""
     : phase.challenges[currentChallengeIndex];
 
   useKeyboard(
     (event) => {
-      // System keys routing
+      // Touches système
       if (event.key === "Escape") {
         onExit();
         return;
@@ -40,29 +40,26 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
 
       const targetChar = currentChallenge.charAt(currentCharIndex);
 
-      // Ignore modifier keys and other non-printable characters
+      // Ignorer les touches de modification (Shift, Ctrl, etc.)
       if (event.key.length > 1) {
         return;
       }
 
       if (event.key === targetChar) {
-        // Correct character typed
         setHasErrorBlink(false);
         const nextCharIndex = currentCharIndex + 1;
 
         if (nextCharIndex >= currentChallenge.length) {
-          // Finished the line!
+          // Ligne terminée !
           setCurrentChallengeIndex((i) => i + 1);
           setCurrentCharIndex(0);
         } else {
-          // Just move to the next character in string
           setCurrentCharIndex(nextCharIndex);
         }
       } else {
-        // Error
         setErrors((e) => e + 1);
         setHasErrorBlink(true);
-        // Clear the blink effect quickly to allow another error flash
+        // Efface le clignotement d'erreur rapidement
         setTimeout(() => setHasErrorBlink(false), 150);
       }
     },
@@ -105,7 +102,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
                 backgroundColor: hasErrorBlink ? "red" : "#ccc",
                 color: "#000",
                 display: "inline-block",
-                minWidth: "10px", // Just enough to see space chars
+                minWidth: "10px", // Utile pour voir les espaces
               }}
             >
               {currentChallenge.charAt(currentCharIndex) === " "

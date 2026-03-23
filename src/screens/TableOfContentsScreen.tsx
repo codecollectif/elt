@@ -51,7 +51,7 @@ export function TableOfContentsScreen({
         return;
       }
 
-      // Listen for numbers to trigger dungeons directly
+      // Écoute les touches numériques pour lancer les donjons
       const num = parseInt(event.key, 10);
       if (!Number.isNaN(num)) {
         event.preventDefault();

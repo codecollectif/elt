@@ -62,7 +62,7 @@ export default function App() {
     <TableOfContentsScreen
       content={tableOfContentsText}
       onSelectDungeon={(id) => {
-        // Prevent launching a locked dungeon manually
+        // Empêche de lancer un donjon verrouillé
         if (id === 7 && (maxUnlockedDungeon ?? 0) >= 6) {
           setCurrentScreen("SANDBOX");
         } else if (id <= (maxUnlockedDungeon ?? 0)) {

@@ -16,7 +16,7 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
   const phase = dungeon.phases[currentPhaseIndex];
 
   if (!phase) {
-    // Should theoretically not happen if onComplete is handled properly
+    // Ne devrait théoriquement pas arriver
     return <div>Dungeon Erreur: Phase {currentPhaseIndex} introuvable.</div>;
   }
 
@@ -24,7 +24,7 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
     if (currentPhaseIndex + 1 < dungeon.phases.length) {
       setCurrentPhaseIndex((prev) => prev + 1);
     } else {
-      onComplete(); // Dungeon is finished, return to table of contents
+      onComplete(); // Fin du donjon, retour au sommaire
     }
   };
 

@@ -2,17 +2,17 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
 
 interface CodeEditorProps {
-  /** Initial code displayed in the editor */
+  /** Code initial affiché dans l'éditeur */
   initialCode?: string;
-  /** Called after each execution with output string and error flag */
+  /** Appelé après chaque exécution avec le résultat et un flag d'erreur */
   onRun?: (output: string, hasError: boolean) => void;
-  /** Called when Escape is pressed */
+  /** Appelé à l'appui sur Échap */
   onExit: () => void;
-  /** Extra keyboard shortcuts handled inside the editor */
+  /** Gestionnaire de touches supplémentaire */
   extraKeyHandler?: (e: KeyboardEvent) => void;
-  /** Mock prompt() return values, consumed in order. Last value repeats. */
+  /** Valeurs de retour simulées pour prompt() */
   mockPromptReturns?: string[];
-  /** Whether to show a download button for the code */
+  /** Afficher le bouton de téléchargement */
   showDownloadButton?: boolean;
 }
 
@@ -38,7 +38,7 @@ export function CodeEditor({
 
     const code = inputRef.current?.value ?? "";
 
-    // Build a worker from an inline blob so we don't need a separate file
+    // Création d'un Worker inline pour l'exécution du code
     const workerSource = `
       self.onmessage = function(e) {
         const { code, mockPromptReturns } = e.data;
@@ -114,8 +114,7 @@ export function CodeEditor({
     URL.revokeObjectURL(url);
   }, []);
 
-  // Native keydown listener on the code-input web component
-  // (must intercept before React to prevent newline insertion on Ctrl+Enter)
+  // Écouteur natif pour intercepter Ctrl+Entrée avant React
   useEffect(() => {
     const el = inputRef.current;
     if (!el) return;
@@ -137,7 +136,7 @@ export function CodeEditor({
       el.removeEventListener("keydown", nativeKeyDown, { capture: true });
   }, [runCode, onExit, extraKeyHandler]);
 
-  // Global fallback: shortcuts still work when the editor loses focus
+  // Fallback global pour les raccourcis clavier
   useKeyboard(
     useCallback(
       (e: KeyboardEvent) => {

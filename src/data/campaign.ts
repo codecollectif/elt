@@ -65,7 +65,6 @@ tu dois l'écrire.
 
 La commande "console.log()" imprime un message dans le journal système.`,
     },
-    // The following phases are placeholders until we build the Typing engine
     {
       id: "d1-p2",
       type: "TYPING_CHALLENGE",
