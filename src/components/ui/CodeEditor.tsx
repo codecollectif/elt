@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
 
-interface RunOptions {
-  /** Mock prompt() return values, consumed in order. Last value repeats. */
-  mockPromptReturns?: string[];
-}
-
 interface CodeEditorProps {
   /** Initial code displayed in the editor */
   initialCode?: string;
@@ -15,8 +10,8 @@ interface CodeEditorProps {
   onExit: () => void;
   /** Extra keyboard shortcuts handled inside the editor */
   extraKeyHandler?: (e: KeyboardEvent) => void;
-  /** Options passed to the code runner */
-  runOptions?: RunOptions;
+  /** Mock prompt() return values, consumed in order. Last value repeats. */
+  mockPromptReturns?: string[];
 }
 
 export function CodeEditor({
@@ -24,16 +19,13 @@ export function CodeEditor({
   onRun,
   onExit,
   extraKeyHandler,
-  runOptions,
+  mockPromptReturns,
 }: CodeEditorProps) {
   const [output, setOutput] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Focus the code editor on mount
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
-    }
+    inputRef.current?.focus();
   }, []);
 
   const TIMEOUT_MS = 3000;
@@ -42,7 +34,6 @@ export function CodeEditor({
     setOutput("⏳ Exécution...");
 
     const code = inputRef.current?.value ?? "";
-    const mockPromptReturns = runOptions?.mockPromptReturns;
 
     // Build a worker from an inline blob so we don't need a separate file
     const workerSource = `
@@ -107,7 +98,7 @@ export function CodeEditor({
     };
 
     worker.postMessage({ code, mockPromptReturns });
-  }, [runOptions?.mockPromptReturns, onRun]);
+  }, [mockPromptReturns, onRun]);
 
   // Native keydown listener on the code-input web component
   // (must intercept before React to prevent newline insertion on Ctrl+Enter)

@@ -1,8 +1,9 @@
-import React, { useCallback } from "react";
+import { useCallback } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
 import { useTypewriter } from "../../hooks/useTypewriter";
 import type { NarrativePhase } from "../../types/game";
 import { KeyboardHelp } from "../ui/KeyboardHelp";
+import { TextBlock } from "../ui/TextBlock";
 
 interface Props {
   phase: NarrativePhase;
@@ -31,18 +32,7 @@ export function NarrativeScreen({ phase, onNext, onExit, hideEscape }: Props) {
 
   return (
     <>
-      {revealedText.split("\n\n").map((p, pIndex) => (
-        // biome-ignore lint/suspicious/noArrayIndexKey: texte statique
-        <p key={`p-${pIndex}`}>
-          {p.split("\n").map((line, lIndex) => (
-            // biome-ignore lint/suspicious/noArrayIndexKey: texte statique
-            <React.Fragment key={`l-${lIndex}`}>
-              {lIndex !== 0 && <br />}
-              {line}
-            </React.Fragment>
-          ))}
-        </p>
-      ))}
+      <TextBlock text={revealedText} />
 
       {isFinished && (
         <KeyboardHelp

@@ -1,22 +1,15 @@
-import { useEffect } from "react";
+import { type DependencyList, useEffect } from "react";
 
 export function useKeyboard(
   listener: (event: KeyboardEvent) => void,
-  dependencies: unknown[] = [],
+  dependencies: DependencyList = [],
 ) {
   useEffect(() => {
-    // Wrap to prevent default scrolling using space or arrows,
-    // if that becomes an issue we can `event.preventDefault()` here
-    // based on specific keys.
-    const handleKeydown = (event: KeyboardEvent) => {
-      listener(event);
-    };
-
-    window.addEventListener("keydown", handleKeydown);
-    window.focus(); // Ensure the window catches the events
+    window.addEventListener("keydown", listener);
+    window.focus();
 
     return () => {
-      window.removeEventListener("keydown", handleKeydown);
+      window.removeEventListener("keydown", listener);
     };
   }, [...dependencies, listener]);
 }

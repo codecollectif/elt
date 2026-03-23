@@ -7,20 +7,16 @@ import { SandboxScreen } from "./screens/SandboxScreen";
 import { TableOfContentsScreen } from "./screens/TableOfContentsScreen";
 
 export default function App() {
-  const [hasSeenIntro, setHasSeenIntro] = useLocalStorage<boolean>(
-    "hasSeenIntro",
-    false,
-  );
+  const [hasSeenIntro, setHasSeenIntro, clearHasSeenIntro] =
+    useLocalStorage<boolean>("hasSeenIntro", false);
   const [currentScreen, setCurrentScreen] = useState<
     "TABLE_OF_CONTENTS" | "DUNGEON" | "SANDBOX"
   >("TABLE_OF_CONTENTS");
   const [selectedDungeonId, setSelectedDungeonId] = useState<number | null>(
     null,
   );
-  const [maxUnlockedDungeon, setMaxUnlockedDungeon] = useLocalStorage<number>(
-    "maxUnlockedDungeon",
-    0,
-  );
+  const [maxUnlockedDungeon, setMaxUnlockedDungeon, clearMaxUnlockedDungeon] =
+    useLocalStorage<number>("maxUnlockedDungeon", 0);
 
   if (!hasSeenIntro) {
     return <IntroScreen onComplete={() => setHasSeenIntro(true)} />;
@@ -38,11 +34,9 @@ export default function App() {
         dungeon={dungeon}
         onExit={() => setCurrentScreen("TABLE_OF_CONTENTS")}
         onComplete={() => {
-          if (selectedDungeonId !== null) {
-            setMaxUnlockedDungeon((prev) =>
-              Math.max(prev ?? 0, selectedDungeonId + 1),
-            );
-          }
+          setMaxUnlockedDungeon((prev) =>
+            Math.max(prev ?? 0, selectedDungeonId + 1),
+          );
           setCurrentScreen("TABLE_OF_CONTENTS");
         }}
       />
@@ -77,8 +71,8 @@ export default function App() {
         }
       }}
       onReset={() => {
-        localStorage.clear();
-        window.location.reload();
+        clearHasSeenIntro();
+        clearMaxUnlockedDungeon();
       }}
     />
   );

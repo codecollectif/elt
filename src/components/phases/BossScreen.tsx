@@ -57,7 +57,7 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
         onRun={handleRun}
         onExit={onExit}
         extraKeyHandler={extraKeyHandler}
-        runOptions={{ mockPromptReturns: phase.mockPromptReturns }}
+        mockPromptReturns={phase.mockPromptReturns}
       />
 
       <KeyboardHelp

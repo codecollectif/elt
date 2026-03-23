@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { KeyboardHelp } from "../components/ui/KeyboardHelp";
+import { TextBlock } from "../components/ui/TextBlock";
 import { useKeyboard } from "../hooks/useKeyboard";
 
 interface Props {
@@ -62,21 +63,7 @@ export function TableOfContentsScreen({
 
   return (
     <>
-      {content
-        .slice(0, revealPosition)
-        .split("\n\n")
-        .map((p, pIndex) => (
-          // biome-ignore lint/suspicious/noArrayIndexKey: statique
-          <p key={`p-${pIndex}`}>
-            {p.split("\n").map((line, lIndex) => (
-              // biome-ignore lint/suspicious/noArrayIndexKey: statique
-              <React.Fragment key={`l-${lIndex}`}>
-                {lIndex !== 0 && <br />}
-                {line}
-              </React.Fragment>
-            ))}
-          </p>
-        ))}
+      <TextBlock text={content.slice(0, revealPosition)} />
 
       {isFinished && (
         <KeyboardHelp

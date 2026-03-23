@@ -1,8 +1,6 @@
-export type PhaseType = "NARRATIVE" | "ACTION" | "TYPING_CHALLENGE" | "BOSS";
-
 export interface BasePhase {
-  id: string; // Identifier for the phase
-  type: PhaseType;
+  id: string;
+  type: "NARRATIVE" | "ACTION" | "TYPING_CHALLENGE" | "BOSS";
 }
 
 export interface NarrativePhase extends BasePhase {
@@ -23,7 +21,6 @@ export interface TypingChallengePhase extends BasePhase {
   challenges: string[]; // List of strings to type perfectly
 }
 
-// Stub for feature phases
 export interface BossPhase extends BasePhase {
   type: "BOSS";
   concept: string; // E.g., "Mets en pratique ce que tu as appris"

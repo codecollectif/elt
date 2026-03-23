@@ -71,7 +71,6 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
 
   return (
     <div className="dungeon-container" style={{ padding: "2rem" }}>
-      {/* Optional: Add a subtle dungeon header or breadcrumb here later */}
       {renderPhase()}
     </div>
   );
