@@ -36,47 +36,77 @@ export function CodeEditor({
     }
   }, []);
 
+  const TIMEOUT_MS = 3000;
+
   const runCode = useCallback(() => {
-    let logs = "";
+    setOutput("⏳ Exécution...");
 
-    // Temporarily hijack console.log
-    const originalLog = console.log;
-    console.log = (...args) => {
-      logs += `${args.join(" ")}\n`;
-    };
+    const code = inputRef.current?.value ?? "";
+    const mockPromptReturns = runOptions?.mockPromptReturns;
 
-    // Optionally hijack prompt
-    const originalPrompt = window.prompt;
-    if (runOptions?.mockPromptReturns) {
-      let promptIndex = 0;
-      window.prompt = (_msg?: string) => {
-        const returns = runOptions.mockPromptReturns ?? [];
-        const res =
-          returns[promptIndex] !== undefined
-            ? returns[promptIndex]
-            : returns[returns.length - 1];
-        promptIndex++;
-        return res;
+    // Build a worker from an inline blob so we don't need a separate file
+    const workerSource = `
+      self.onmessage = function(e) {
+        const { code, mockPromptReturns } = e.data;
+        let logs = "";
+
+        console.log = (...args) => {
+          logs += args.join(" ") + "\\n";
+        };
+
+        if (mockPromptReturns) {
+          let i = 0;
+          self.prompt = () => {
+            const res = i < mockPromptReturns.length
+              ? mockPromptReturns[i]
+              : mockPromptReturns[mockPromptReturns.length - 1];
+            i++;
+            return res;
+          };
+        }
+
+        let hasError = false;
+        try {
+          eval(code);
+        } catch (error) {
+          hasError = true;
+          logs += error + "\\n";
+        }
+        self.postMessage({ logs, hasError });
       };
-    }
+    `;
 
-    let hasError = false;
+    const blob = new Blob([workerSource], { type: "application/javascript" });
+    const url = URL.createObjectURL(blob);
+    const worker = new Worker(url);
 
-    try {
-      const code = inputRef.current?.value ?? "";
-      // biome-ignore lint/security/noGlobalEval: intentional sandbox execution
-      eval(code);
-    } catch (error) {
-      hasError = true;
-      logs += `${error}\n`;
-    } finally {
-      console.log = originalLog;
-      if (runOptions?.mockPromptReturns) {
-        window.prompt = originalPrompt;
-      }
+    const timer = setTimeout(() => {
+      worker.terminate();
+      URL.revokeObjectURL(url);
+      const msg = "⏱️ Boucle infinie détectée ! Le code a été interrompu.\n";
+      setOutput(msg);
+      onRun?.(msg, true);
+    }, TIMEOUT_MS);
+
+    worker.onmessage = (e) => {
+      clearTimeout(timer);
+      worker.terminate();
+      URL.revokeObjectURL(url);
+      const { logs, hasError } = e.data;
       setOutput(logs || "/* Exécution terminée sans log */");
       onRun?.(logs, hasError);
-    }
+    };
+
+    worker.onerror = (e) => {
+      clearTimeout(timer);
+      worker.terminate();
+      URL.revokeObjectURL(url);
+      const msg = `${e.message}\n`;
+      setOutput(msg);
+      onRun?.(msg, true);
+    };
+
+    worker.postMessage({ code, mockPromptReturns });
   }, [runOptions?.mockPromptReturns, onRun]);
 
   // Native keydown listener on the code-input web component
