@@ -31,6 +31,7 @@ export function SandboxScreen({ onExit }: Props) {
 console.log("Amuse-toi bien !");
 `}
         onExit={onExit}
+        showDownloadButton
       />
 
       <KeyboardHelp

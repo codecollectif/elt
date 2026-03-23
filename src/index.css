@@ -41,6 +41,29 @@ dl {
   position: relative;
 }
 
+.download-button {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #333;
+  color: #eee;
+  border: 1px solid #555;
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  cursor: pointer;
+  opacity: 0.7;
+  z-index: 10;
+  transition: opacity 0.2s;
+}
+
+.download-button:hover,
+.download-button:focus {
+  opacity: 1;
+  outline: none;
+  border-color: #777;
+}
+
 .code-input_dialog-container {
   display: none;
 }

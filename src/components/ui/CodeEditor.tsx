@@ -12,6 +12,8 @@ interface CodeEditorProps {
   extraKeyHandler?: (e: KeyboardEvent) => void;
   /** Mock prompt() return values, consumed in order. Last value repeats. */
   mockPromptReturns?: string[];
+  /** Whether to show a download button for the code */
+  showDownloadButton?: boolean;
 }
 
 export function CodeEditor({
@@ -20,6 +22,7 @@ export function CodeEditor({
   onExit,
   extraKeyHandler,
   mockPromptReturns,
+  showDownloadButton,
 }: CodeEditorProps) {
   const [output, setOutput] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -100,6 +103,17 @@ export function CodeEditor({
     worker.postMessage({ code, mockPromptReturns });
   }, [mockPromptReturns, onRun]);
 
+  const handleDownload = useCallback(() => {
+    const code = inputRef.current?.value ?? "";
+    const blob = new Blob([code], { type: "application/javascript" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "entre_les_touches.js";
+    a.click();
+    URL.revokeObjectURL(url);
+  }, []);
+
   // Native keydown listener on the code-input web component
   // (must intercept before React to prevent newline insertion on Ctrl+Enter)
   useEffect(() => {
@@ -171,8 +185,18 @@ export function CodeEditor({
           fontStyle: "normal",
           whiteSpace: "pre-wrap",
           color: "#ccc",
+          position: "relative",
         }}
       >
+        {showDownloadButton && (
+          <button
+            type="button"
+            onClick={handleDownload}
+            className="download-button"
+          >
+            Télécharger .js
+          </button>
+        )}
         {output ?? "/* Résultat de l'exécution... */"}
       </div>
     </>
