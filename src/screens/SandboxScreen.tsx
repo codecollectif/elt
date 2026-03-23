@@ -32,6 +32,7 @@ console.log("Amuse-toi bien !");
 `}
         onExit={onExit}
         showDownloadButton
+        useMainThread
       />
 
       <KeyboardHelp

@@ -14,6 +14,8 @@ interface CodeEditorProps {
   mockPromptReturns?: string[];
   /** Afficher le bouton de téléchargement */
   showDownloadButton?: boolean;
+  /** Utiliser le thread principal pour l'exécution (permet window.prompt) */
+  useMainThread?: boolean;
 }
 
 export function CodeEditor({
@@ -23,6 +25,7 @@ export function CodeEditor({
   extraKeyHandler,
   mockPromptReturns,
   showDownloadButton,
+  useMainThread,
 }: CodeEditorProps) {
   const [output, setOutput] = useState<string | null>(null);
   const inputRef = useRef<HTMLTextAreaElement>(null);
@@ -37,6 +40,32 @@ export function CodeEditor({
     setOutput("⏳ Exécution...");
 
     const code = inputRef.current?.value ?? "";
+
+    if (useMainThread) {
+      // Exécution dans le thread principal pour permettre window.prompt()
+      let logs = "";
+      const originalLog = console.log;
+
+      // On surcharge console.log temporairement
+      console.log = (...args: unknown[]) => {
+        logs += `${args.join(" ")}\n`;
+      };
+
+      try {
+        // biome-ignore lint/security/noGlobalEval: Utilisé pour le bac à sable pédagogique
+        eval(code);
+        setOutput(logs || "/* Exécution terminée sans log */");
+        onRun?.(logs, false);
+      } catch (error) {
+        logs += `${error}\n`;
+        setOutput(logs);
+        onRun?.(logs, true);
+      } finally {
+        // On restaure console.log quoi qu'il arrive
+        console.log = originalLog;
+      }
+      return;
+    }
 
     // Création d'un Worker inline pour l'exécution du code
     const workerSource = `
@@ -101,7 +130,7 @@ export function CodeEditor({
     };
 
     worker.postMessage({ code, mockPromptReturns });
-  }, [mockPromptReturns, onRun]);
+  }, [mockPromptReturns, onRun, useMainThread]);
 
   const handleDownload = useCallback(() => {
     const code = inputRef.current?.value ?? "";
