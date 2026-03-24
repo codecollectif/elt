@@ -17,32 +17,40 @@ symbole par symbole ?
 Ici, aucun code.
 Seulement des touches.
 
-Cette épreuve se déroule ailleurs.
+Ressens la résistance,
+trouve le rythme.
 
-Lis. Tape. Observe.
-
-Quand tu te sentiras à l'aise, reviens.`,
+Quand tu seras prêt, avance.`,
     },
     {
       id: "d0-p2",
-      type: "ACTION",
-      content: `Ouvre le lieu d’entraînement :
-
-https://www.keybr.com/fr
-
-Passe l'épreuve du Clavier.
-
-Objectifs :
-- regarder et taper
-- accepter l’erreur
-- viser la précision, pas la vitesse
-
-Durée recommandée :
-10 à 15 minutes`,
-      actionDescription: "Ouvrir le lieu d'entraînement",
-      onAction: () => {
-        window.open("https://www.keybr.com/fr", "_blank")?.focus();
-      },
+      type: "TYPING_TRAINER",
+      concept: "la rangée de repos",
+      lines: [
+        "qsdf jkl;",
+        "qsdf jkl;",
+        "fjdkslq;",
+        "fjdkslq;",
+        "ff jj kk dd ss ll qq ;;",
+      ],
+      headerLabel: "Entraînement fondamental",
+      headerColor: "#4682b4",
+      helpLabel: "Suivre la séquence",
+      errorLabel: "Fautes",
+      fontSize: "24px",
+      letterSpacing: "2px",
+    },
+    {
+      id: "d0-p3",
+      type: "TYPING_TRAINER",
+      concept: "symboles et structure",
+      lines: ["() {} []", '"" == ; : , .', "const let if while"],
+      headerLabel: "Entraînement fondamental",
+      headerColor: "#4682b4",
+      helpLabel: "Suivre la séquence",
+      errorLabel: "Fautes",
+      fontSize: "24px",
+      letterSpacing: "2px",
     },
   ],
 };
@@ -67,14 +75,18 @@ La commande "console.log()" imprime un message dans le journal système.`,
     },
     {
       id: "d1-p2",
-      type: "TYPING_CHALLENGE",
+      type: "TYPING_TRAINER",
       concept: "console.log",
-      challenges: [
+      lines: [
         "console.log();",
         "console.log(expression);",
         'console.log("hello, world!");',
         'console.log("Défi réussi !");',
       ],
+      headerLabel: "Entraînement",
+      headerColor: "#8a2be2",
+      helpLabel: "Taper le code",
+      errorLabel: "Erreurs",
     },
     {
       id: "d1-p3",
@@ -107,14 +119,18 @@ on la stocke dans une "constante" (const) ou une "variable" (let).`,
     },
     {
       id: "d2-p2",
-      type: "TYPING_CHALLENGE",
-      concept: "Variables",
-      challenges: [
+      type: "TYPING_TRAINER",
+      concept: "variables",
+      lines: [
         "const answer = prompt(question);",
         'const name = prompt("Quel est ton nom ?");',
         'const quest = prompt("Quelle est ta mission ?");',
         'const color = prompt("Quelle est ta couleur préférée ?");',
       ],
+      headerLabel: "Entraînement",
+      headerColor: "#8a2be2",
+      helpLabel: "Taper le code",
+      errorLabel: "Erreurs",
     },
     {
       id: "d2-p3",
@@ -150,14 +166,18 @@ mais uniquement quand une condition est vraie.`,
     },
     {
       id: "d3-p2",
-      type: "TYPING_CHALLENGE",
-      concept: "Conditions",
-      challenges: [
+      type: "TYPING_TRAINER",
+      concept: "conditions",
+      lines: [
         "if () {}",
         "if (condition) { doSomething(); }",
         'if (age < 18) { console.log("Trop jeune !"); }',
         'if (age >= 18) { console.log("Bienvenue !"); }',
       ],
+      headerLabel: "Entraînement",
+      headerColor: "#8a2be2",
+      helpLabel: "Taper le code",
+      errorLabel: "Erreurs",
     },
     {
       id: "d3-p3",
@@ -191,19 +211,23 @@ la boucle ne s'arrêtera jamais !`,
     },
     {
       id: "d4-p2",
-      type: "TYPING_CHALLENGE",
-      concept: "Boucles",
-      challenges: [
+      type: "TYPING_TRAINER",
+      concept: "boucles",
+      lines: [
         "while () {}",
         "while (condition) { repeatSomething(); }",
-        "let i = 0; while (i < 10) { console.log(i); i++; }",
-        'let answer = "Non"; while (answer !== "Oui") { answer = prompt("Tu es sûr ?"); }',
+        "let i = 0;\nwhile (i < 10) { console.log(i); i++; }",
+        'let answer = "Non";\nwhile (answer !== "Oui") { answer = prompt("Tu confirmes ?"); }',
       ],
+      headerLabel: "Entraînement",
+      headerColor: "#8a2be2",
+      helpLabel: "Taper le code",
+      errorLabel: "Erreurs",
     },
     {
       id: "d4-p3",
       type: "BOSS",
-      concept: "Compte jusqu'à 10",
+      concept: "compte jusqu'à 10",
       initialCode:
         "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n// while (condition) { repeatSomething(); }\n\n// Utilise une boucle while pour afficher de 1 jusqu'à 10.\nlet i = 0;\n",
       expectedOutput: "1\n2\n3\n4\n5\n6\n7\n8\n9\n10",
@@ -214,7 +238,7 @@ la boucle ne s'arrêtera jamais !`,
 export const dungeon5: Dungeon = {
   id: 5,
   title: "Le Gardien",
-  concept: "Le combat final (variables, boucle)",
+  concept: "le combat final",
   phases: [
     {
       id: "d5-p1",
@@ -243,7 +267,7 @@ Montre-lui.`,
 export const dungeon6: Dungeon = {
   id: 6,
   title: "Épilogue",
-  concept: "Fin de l'aventure",
+  concept: "fin de l'aventure",
   phases: [
     {
       id: "d6-p1",

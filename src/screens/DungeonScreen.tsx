@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ActionScreen } from "../components/phases/ActionScreen";
 import { BossScreen } from "../components/phases/BossScreen";
 import { NarrativeScreen } from "../components/phases/NarrativeScreen";
-import { TypingChallengeScreen } from "../components/phases/TypingChallengeScreen";
+import { TypingTrainerScreen } from "../components/phases/TypingTrainerScreen";
 import type { Dungeon } from "../types/game";
 
 interface Props {
@@ -48,9 +48,9 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
             onExit={onExit}
           />
         );
-      case "TYPING_CHALLENGE":
+      case "TYPING_TRAINER":
         return (
-          <TypingChallengeScreen
+          <TypingTrainerScreen
             key={phase.id}
             phase={phase}
             onNext={handleNextPhase}

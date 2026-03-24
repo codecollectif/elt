@@ -1,6 +1,6 @@
 export interface BasePhase {
   id: string;
-  type: "NARRATIVE" | "ACTION" | "TYPING_CHALLENGE" | "BOSS";
+  type: "NARRATIVE" | "ACTION" | "BOSS" | "TYPING_TRAINER";
 }
 
 export interface NarrativePhase extends BasePhase {
@@ -15,25 +15,27 @@ export interface ActionPhase extends BasePhase {
   onAction: () => void;
 }
 
-export interface TypingChallengePhase extends BasePhase {
-  type: "TYPING_CHALLENGE";
-  concept: string; // Technical concept ("console.log")
-  challenges: string[]; // List of strings to type perfectly
-}
-
 export interface BossPhase extends BasePhase {
   type: "BOSS";
-  concept: string; // E.g., "Mets en pratique ce que tu as appris"
-  initialCode?: string; // E.g., "// Écris ton code\n"
-  expectedOutput?: string; // If provided, the code must log this exactly to proceed
-  mockPromptReturns?: string[]; // E.g., ["non", "jamais", "oui"]
+  concept: string;
+  initialCode?: string;
+  expectedOutput?: string;
+  mockPromptReturns?: string[];
 }
 
-export type Phase =
-  | NarrativePhase
-  | ActionPhase
-  | TypingChallengePhase
-  | BossPhase;
+export interface TypingPhase extends BasePhase {
+  type: "TYPING_TRAINER";
+  concept: string;
+  lines: string[];
+  headerLabel?: string;
+  headerColor?: string;
+  helpLabel?: string;
+  errorLabel?: string;
+  fontSize?: string;
+  letterSpacing?: string;
+}
+
+export type Phase = NarrativePhase | ActionPhase | TypingPhase | BossPhase;
 
 export interface Dungeon {
   id: number;
