@@ -200,13 +200,13 @@ export function CodeEditor({
           e.preventDefault();
           e.stopPropagation();
           runCode();
-        } 
+        }
         // Échap pour quitter
         else if (e.key === "Escape") {
           e.preventDefault();
           e.stopPropagation();
           onExit();
-        } 
+        }
         // Autres touches (ex: Shift+Entrée passé par BossScreen)
         else {
           extraKeyHandler?.(e);
