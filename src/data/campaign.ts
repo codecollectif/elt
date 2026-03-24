@@ -262,6 +262,17 @@ Il ne te reste plus qu'à écrire ta propre histoire.
 
 --- FIN ---`,
     },
+    {
+      id: "d6-p2",
+      type: "ACTION",
+      content: `Rejoins le collectif pour partager ton expérience :
+
+https://discord.gg/EJTsyuFwzj`,
+      actionDescription: "Rejoindre le Discord du collectif",
+      onAction: () => {
+        window.open("https://discord.gg/EJTsyuFwzj", "_blank")?.focus();
+      },
+    },
   ],
 };
 
