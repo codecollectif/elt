@@ -47,17 +47,3 @@ export interface Campaign {
   tableOfContentsScreenText: string;
   dungeons: Dungeon[];
 }
-
-declare module "react" {
-  namespace JSX {
-    interface IntrinsicElements {
-      "code-input": React.DetailedHTMLProps<
-        React.HTMLAttributes<HTMLTextAreaElement> & {
-          language: string;
-          value?: string;
-        },
-        HTMLTextAreaElement
-      >;
-    }
-  }
-}

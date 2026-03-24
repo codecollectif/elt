@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useKeyboard } from "../../hooks/useKeyboard";
+import { CodeInput } from "./CodeInput";
 
 const TIMEOUT_MS = 3000;
 
@@ -266,7 +267,7 @@ export function CodeEditor({
           fontStyle: "normal",
         }}
       >
-        <code-input ref={inputRef} language="JavaScript" value={initialCode} />
+        <CodeInput ref={inputRef} language="JavaScript" value={initialCode} />
       </div>
 
       <div
