@@ -13,7 +13,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
   const [currentChallengeIndex, setCurrentChallengeIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [errors, setErrors] = useState(0);
-  const [hasErrorBlink, setHasErrorBlink] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
   // Vérification de la progression
   const isFinishedAll = currentChallengeIndex >= phase.challenges.length;
@@ -46,7 +46,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
       }
 
       if (event.key === targetChar) {
-        setHasErrorBlink(false);
+        setHasError(false);
         const nextCharIndex = currentCharIndex + 1;
 
         if (nextCharIndex >= currentChallenge.length) {
@@ -58,9 +58,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
         }
       } else {
         setErrors((e) => e + 1);
-        setHasErrorBlink(true);
-        // Efface le clignotement d'erreur rapidement
-        setTimeout(() => setHasErrorBlink(false), 150);
+        setHasError(true);
       }
     },
     [isFinishedAll, currentChallenge, currentCharIndex, phase, onNext, onExit],
@@ -74,6 +72,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
 
       {/* Render only the active challenge or the success state inside an IDE-like container */}
       <div
+        className={hasError ? "mistyping-mode" : ""}
         style={{
           backgroundColor: "#1e1e1e",
           color: "#ccc",
@@ -99,7 +98,7 @@ export function TypingChallengeScreen({ phase, onNext, onExit }: Props) {
             </span>
             <span
               style={{
-                backgroundColor: hasErrorBlink ? "red" : "#ccc",
+                backgroundColor: hasError ? "red" : "#ccc",
                 color: "#000",
                 display: "inline-block",
                 minWidth: "10px", // Utile pour voir les espaces

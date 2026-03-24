@@ -191,45 +191,24 @@ export function CodeEditor({
     URL.revokeObjectURL(url);
   }, []);
 
-  // Écouteur natif pour intercepter Ctrl+Entrée avant React
-  useEffect(() => {
-    const el = inputRef.current;
-    if (!el) return;
-
-    const nativeKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        e.stopPropagation();
-        runCode();
-      } else if (e.key === "Escape") {
-        onExit();
-      } else {
-        extraKeyHandler?.(e);
-      }
-    };
-
-    el.addEventListener("keydown", nativeKeyDown, { capture: true });
-    return () =>
-      el.removeEventListener("keydown", nativeKeyDown, { capture: true });
-  }, [runCode, onExit, extraKeyHandler]);
-
-  // Fallback global pour les raccourcis clavier
+  // Gestion unique et globale des raccourcis clavier
   useKeyboard(
     useCallback(
       (e: KeyboardEvent) => {
-        if (
-          e.target === inputRef.current ||
-          inputRef.current?.contains(e.target as Node)
-        ) {
-          return;
-        }
-
+        // Ctrl+Entrée ou Cmd+Entrée pour lancer le code
         if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
           e.preventDefault();
+          e.stopPropagation();
           runCode();
-        } else if (e.key === "Escape") {
+        } 
+        // Échap pour quitter
+        else if (e.key === "Escape") {
+          e.preventDefault();
+          e.stopPropagation();
           onExit();
-        } else {
+        } 
+        // Autres touches (ex: Shift+Entrée passé par BossScreen)
+        else {
           extraKeyHandler?.(e);
         }
       },
