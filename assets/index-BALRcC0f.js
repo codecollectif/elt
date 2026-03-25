@@ -15,10 +15,7 @@ symbole par symbole ?
 Ici, aucun code.
 Seulement des touches.
 
-Ressens la résistance,
-trouve le rythme.
-
-Quand tu seras prêt, avance.`},{id:"d0-p2",type:"TYPING_TRAINER",concept:"la rangée de repos",lines:["qsdf jkl;","qsdf jkl;","fjdkslq;","fjdkslq;","ff jj kk dd ss ll qq ;;"],headerLabel:"Entraînement fondamental",headerColor:"#4682b4",helpLabel:"Suivre la séquence",errorLabel:"Fautes",fontSize:"24px",letterSpacing:"2px"},{id:"d0-p3",type:"TYPING_TRAINER",concept:"symboles et structure",lines:["() {} []",'"" == ; : , .',"const let if while"],headerLabel:"Entraînement fondamental",headerColor:"#4682b4",helpLabel:"Suivre la séquence",errorLabel:"Fautes",fontSize:"24px",letterSpacing:"2px"}]},zg={id:1,title:"La première parole",concept:"console.log",phases:[{id:"d1-p1",type:"NARRATIVE",content:`Tu es dans les entrailles de la machine.
+Lis. Tape. Observe.`},{id:"d0-p2",type:"TYPING_TRAINER",concept:"la rangée de repos",lines:["qsdf jkl;","qsdf jkl;","fjdkslq;","fjdkslq;","ff jj kk dd ss ll qq ;;"],headerLabel:"Entraînement fondamental",headerColor:"#4682b4",helpLabel:"Suivre la séquence",errorLabel:"Fautes",fontSize:"24px",letterSpacing:"2px"},{id:"d0-p3",type:"TYPING_TRAINER",concept:"symboles et structure",lines:["() {} []",'"" == ; : , .',"const let if while"],headerLabel:"Entraînement fondamental",headerColor:"#4682b4",helpLabel:"Suivre la séquence",errorLabel:"Fautes",fontSize:"24px",letterSpacing:"2px"}]},zg={id:1,title:"La première parole",concept:"console.log",phases:[{id:"d1-p1",type:"NARRATIVE",content:`Tu es dans les entrailles de la machine.
 
 Dans cet espace vide,
 ta voix n'a pas de son.
