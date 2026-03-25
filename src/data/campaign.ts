@@ -17,10 +17,7 @@ symbole par symbole ?
 Ici, aucun code.
 Seulement des touches.
 
-Ressens la résistance,
-trouve le rythme.
-
-Quand tu seras prêt, avance.`,
+Lis. Tape. Observe.`,
     },
     {
       id: "d0-p2",
