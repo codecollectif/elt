@@ -13,10 +13,7 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
   const {
     lines,
     concept,
-    headerLabel = "Entraînement",
-    headerColor = "#8a2be2",
     helpLabel = "Taper le code",
-    errorLabel = "Erreurs",
     fontSize = "20px",
     letterSpacing = "1px",
   } = phase;
@@ -78,13 +75,13 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
     <section>
       <h2
         style={{
-          color: headerColor,
+          color: "#8a2be2",
           marginBottom: "2rem",
           fontSize: "1rem",
           fontWeight: "bold",
         }}
       >
-        === {headerLabel} : {concept} ===
+        === Entraînement : {concept} ===
       </h2>
 
       <div
@@ -125,7 +122,7 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
                 padding: "0 2px",
               }}
             >
-              {currentChar === " " ? " " : currentChar}
+              {currentChar}
             </span>
             <span style={{ opacity: 0.3 }}>
               {currentLine.slice(currentCharIndex + 1)}
@@ -146,9 +143,7 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
         <div aria-live="polite">
           Progression : {currentIndex} / {lines.length}
         </div>
-        <div aria-live="polite">
-          {errorLabel} : {errors}
-        </div>
+        <div aria-live="polite">Erreurs : {errors}</div>
       </footer>
 
       <KeyboardHelp

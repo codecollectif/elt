@@ -27,10 +27,7 @@ export interface TypingPhase extends BasePhase {
   type: "TYPING_TRAINER";
   concept: string;
   lines: string[];
-  headerLabel?: string;
-  headerColor?: string;
   helpLabel?: string;
-  errorLabel?: string;
   fontSize?: string;
   letterSpacing?: string;
 }
