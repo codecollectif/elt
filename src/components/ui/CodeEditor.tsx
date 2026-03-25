@@ -75,7 +75,8 @@ export function CodeEditor({
   showDownloadButton,
 }: CodeEditorProps) {
   const inputRef = useRef<HTMLTextAreaElement>(null);
-  const outputDivRef = useRef<HTMLDivElement>(null);
+  const outputRef = useRef<HTMLOutputElement>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
 
   const lastOutputRef = useRef<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -106,8 +107,8 @@ export function CodeEditor({
   const stopExecution = useCallback(
     (message: string, isError = false) => {
       cleanupWorker();
-      if (outputDivRef.current) {
-        outputDivRef.current.textContent = message;
+      if (outputRef.current) {
+        outputRef.current.textContent = message;
       }
       lastOutputRef.current = message;
       onRun?.(message, isError);
@@ -117,15 +118,23 @@ export function CodeEditor({
 
   useEffect(() => {
     inputRef.current?.focus();
-    if (outputDivRef.current) {
-      outputDivRef.current.textContent = "/* Résultat de l'exécution... */";
+    if (outputRef.current) {
+      outputRef.current.textContent = "/* Résultat de l'exécution... */";
     }
     return cleanupWorker;
   }, [cleanupWorker]);
 
+  useEffect(() => {
+    if (promptConfig) {
+      dialogRef.current?.showModal();
+    } else {
+      dialogRef.current?.close();
+    }
+  }, [promptConfig]);
+
   const runCode = useCallback(() => {
-    if (outputDivRef.current) {
-      outputDivRef.current.textContent = "⏳ Exécution...\n";
+    if (outputRef.current) {
+      outputRef.current.textContent = "⏳ Exécution...\n";
     }
 
     const code = inputRef.current?.value ?? "";
@@ -156,8 +165,8 @@ export function CodeEditor({
 
       if (type === "LOG") {
         logs += msg;
-        if (outputDivRef.current) {
-          outputDivRef.current.textContent = logs;
+        if (outputRef.current) {
+          outputRef.current.textContent = logs;
         }
       } else if (type === "PROMPT") {
         if (timerRef.current) {
@@ -191,7 +200,7 @@ export function CodeEditor({
     URL.revokeObjectURL(url);
   }, []);
 
-  // Gestion unique et globale des raccourcis clavier
+  // Gestion globale des raccourcis clavier
   useKeyboard(
     useCallback(
       (e: KeyboardEvent) => {
@@ -201,21 +210,56 @@ export function CodeEditor({
           e.stopPropagation();
           runCode();
         }
-        // Échap pour quitter
+        // Échap pour quitter ou fermer le prompt
         else if (e.key === "Escape") {
+          if (promptConfig) {
+            // Laisse le <dialog> gérer l'échap par défaut (qui fermera le prompt)
+            return;
+          }
           e.preventDefault();
           e.stopPropagation();
           onExit();
         }
         // Autres touches (ex: Shift+Entrée passé par BossScreen)
         else {
+          if (e.key === "Enter" && e.shiftKey) {
+            // Empêche le saut de ligne pour Shift+Entrée même s'il n'est pas géré
+            e.preventDefault();
+            e.stopPropagation();
+          }
           extraKeyHandler?.(e);
         }
       },
-      [runCode, onExit, extraKeyHandler],
+      [runCode, onExit, extraKeyHandler, promptConfig],
     ),
-    [runCode, onExit, extraKeyHandler],
+    [runCode, onExit, extraKeyHandler, promptConfig],
   );
+
+  // Nécessaire pour empêcher le <code-input> d'attraper les raccourcis avec Entrée
+  useEffect(() => {
+    const el = inputRef.current;
+    if (!el) return;
+
+    const nativeKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
+        // Empêche le saut de ligne pour Ctrl+Entrée
+        e.preventDefault();
+        e.stopPropagation();
+        runCode();
+      } else {
+        if (e.key === "Enter" && e.shiftKey) {
+          // Empêche le saut de ligne pour Shift+Entrée
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        extraKeyHandler?.(e);
+      }
+    };
+
+    el.addEventListener("keydown", nativeKeyDown, { capture: true });
+    return () =>
+      el.removeEventListener("keydown", nativeKeyDown, { capture: true });
+  }, [runCode, extraKeyHandler]);
 
   const handlePromptSubmit = (value: string) => {
     if (promptConfig) {
@@ -271,82 +315,77 @@ export function CodeEditor({
             Télécharger .js
           </button>
         )}
-        <div ref={outputDivRef} />
+        <output
+          ref={outputRef}
+          aria-live="polite"
+          style={{ display: "block", minHeight: "1em" }}
+        />
       </div>
 
-      {promptConfig && (
-        <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: "rgba(0,0,0,0.8)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            zIndex: 1000,
-          }}
-        >
-          <div
-            style={{
-              background: "#1a1a1a",
-              padding: "2rem",
-              borderRadius: "8px",
-              border: "1px solid #333",
-              width: "100%",
-              maxWidth: "400px",
+      <dialog
+        ref={dialogRef}
+        onClose={() => setPromptConfig(null)}
+        style={{
+          background: "#1a1a1a",
+          padding: "2rem",
+          borderRadius: "8px",
+          border: "1px solid #333",
+          width: "100%",
+          maxWidth: "400px",
+          color: "#fff",
+        }}
+      >
+        {promptConfig && (
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const val = (
+                e.currentTarget.elements.namedItem(
+                  "promptInput",
+                ) as HTMLInputElement
+              ).value;
+              handlePromptSubmit(val);
             }}
           >
-            <p style={{ marginBottom: "1rem", color: "#fff" }}>
-              {promptConfig.question}
-            </p>
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                const val = (
-                  e.currentTarget.elements.namedItem(
-                    "promptInput",
-                  ) as HTMLInputElement
-                ).value;
-                handlePromptSubmit(val);
-              }}
+            <label
+              htmlFor="prompt-input"
+              style={{ display: "block", marginBottom: "1rem" }}
             >
-              <input
-                // biome-ignore lint/a11y/noAutofocus: C'est une pop-up, on veut que le focus soit dessus.
-                autoFocus
-                name="promptInput"
-                type="text"
+              {promptConfig.question}
+            </label>
+            <input
+              id="prompt-input"
+              autoFocus
+              name="promptInput"
+              type="text"
+              style={{
+                width: "100%",
+                background: "#000",
+                border: "1px solid #444",
+                color: "#fff",
+                padding: "0.5rem",
+                marginBottom: "1rem",
+                fontFamily: "inherit",
+              }}
+            />
+            <div style={{ display: "flex", justifyContent: "flex-end" }}>
+              <button
+                type="submit"
                 style={{
-                  width: "100%",
-                  background: "#000",
-                  border: "1px solid #444",
+                  background: "#444",
                   color: "#fff",
-                  padding: "0.5rem",
-                  marginBottom: "1rem",
-                  fontFamily: "inherit",
+                  border: "none",
+                  padding: "0.5rem 1.5rem",
+                  cursor: "pointer",
+                  borderRadius: "4px",
                 }}
-              />
-              <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                <button
-                  type="submit"
-                  style={{
-                    background: "#444",
-                    color: "#fff",
-                    border: "none",
-                    padding: "0.5rem 1.5rem",
-                    cursor: "pointer",
-                    borderRadius: "4px",
-                  }}
-                >
-                  OK
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+              >
+                OK
+              </button>
+            </div>
+          </form>
+        )}
+      </dialog>
     </>
   );
 }

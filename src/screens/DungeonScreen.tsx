@@ -70,8 +70,8 @@ export function DungeonScreen({ dungeon, onExit, onComplete }: Props) {
   };
 
   return (
-    <div className="dungeon-container" style={{ padding: "2rem" }}>
+    <main className="dungeon-container" style={{ padding: "2rem" }}>
       {renderPhase()}
-    </div>
+    </main>
   );
 }

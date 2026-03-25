@@ -91,10 +91,10 @@ La commande "console.log()" imprime un message dans le journal système.`,
     {
       id: "d1-p3",
       type: "BOSS",
-      concept: `affiche "Je connais le console.log !" dans la console`,
+      concept: `montre-moi`,
       initialCode:
-        "// Ce que tu connais :\n// console.log(expression);\n\n// Écris ton code JavaScript ici\n",
-      expectedOutput: "Je connais le console.log !",
+        '// Ce que tu connais :\n// console.log(expression);\n\n// Affiche "Je connais le console.log() !"\n// Écris ton code JavaScript ici\n',
+      expectedOutput: "Je connais le console.log() !",
     },
   ],
 };
@@ -161,7 +161,7 @@ Il te regarde, hésite, puis lâche :
 "Je fais une pause. Surveille la porte.
 Personne de moins de 18 ans ne passe."
 
-Le mot-clé "if" (si) permet d'exécuter du code,
+Le mot-clé "if" ("si") permet d'exécuter du code,
 mais uniquement quand une condition est vraie.`,
     },
     {
@@ -182,7 +182,7 @@ mais uniquement quand une condition est vraie.`,
     {
       id: "d3-p3",
       type: "BOSS",
-      concept: "l'oracle des conditions",
+      concept: "à condition que...",
       mockPromptReturns: ["15"],
       initialCode:
         '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// Un voyageur approche. Demande-lui son âge via prompt().\n// Si l\'âge est < 18, affiche "Trop jeune !"\n// puis affiche "Reviens dans X ans." (où X = 18 - age).\n',
@@ -204,7 +204,7 @@ Chaque marche est identique à la précédente.
 
 À quoi bon répéter la même chose 10 fois ?
 
-L'instruction "while" (tant que) permet de répéter un bloc de code.
+L'instruction "while" ("tant que") permet de répéter un bloc de code.
 
 Attention : si la condition est toujours vraie,
 la boucle ne s'arrêtera jamais !`,

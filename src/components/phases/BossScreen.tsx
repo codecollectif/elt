@@ -41,16 +41,17 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
   );
 
   return (
-    <div style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
-      <p
+    <section style={{ width: "100%", maxWidth: "800px", margin: "0 auto" }}>
+      <h2
         style={{
           color: isSuccess ? "green" : "#ff4500",
           marginBottom: "1rem",
           fontWeight: "bold",
+          fontSize: "1rem",
         }}
       >
         === Épreuve : {phase.concept} ===
-      </p>
+      </h2>
 
       <CodeEditor
         initialCode={phase.initialCode}
@@ -79,6 +80,6 @@ export function BossScreen({ phase, onNext, onExit }: Props) {
           { keys: ["échap"], description: "Revenir au sommaire" },
         ]}
       />
-    </div>
+    </section>
   );
 }

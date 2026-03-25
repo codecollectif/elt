@@ -75,12 +75,17 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
   );
 
   return (
-    <div>
-      <p style={{ color: headerColor, marginBottom: "2rem" }}>
-        <strong>
-          === {headerLabel} : {concept} ===
-        </strong>
-      </p>
+    <section>
+      <h2
+        style={{
+          color: headerColor,
+          marginBottom: "2rem",
+          fontSize: "1rem",
+          fontWeight: "bold",
+        }}
+      >
+        === {headerLabel} : {concept} ===
+      </h2>
 
       <div
         className={hasError ? "mistyping-mode" : ""}
@@ -103,9 +108,9 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
         }}
       >
         {isFinishedAll ? (
-          <div style={{ textAlign: "center" }}>
-            <p style={{ color: "#0f0", margin: 0 }}>Défi réussi !</p>
-          </div>
+          <p style={{ color: "#0f0", margin: 0, textAlign: "center" }}>
+            Défi réussi !
+          </p>
         ) : (
           <p style={{ margin: 0, letterSpacing: letterSpacing }}>
             <span style={{ color: "#0f0" }}>
@@ -129,7 +134,7 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
         )}
       </div>
 
-      <div
+      <footer
         style={{
           marginTop: "2rem",
           display: "flex",
@@ -138,13 +143,13 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
           opacity: 0.6,
         }}
       >
-        <div>
+        <div aria-live="polite">
           Progression : {currentIndex} / {lines.length}
         </div>
-        <div>
+        <div aria-live="polite">
           {errorLabel} : {errors}
         </div>
-      </div>
+      </footer>
 
       <KeyboardHelp
         shortcuts={[
@@ -154,6 +159,6 @@ export function TypingTrainerScreen({ phase, onNext, onExit }: Props) {
           { keys: ["échap"], description: "Revenir au sommaire" },
         ]}
       />
-    </div>
+    </section>
   );
 }

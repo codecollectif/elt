@@ -50,9 +50,9 @@ export const CodeInput = forwardRef<HTMLTextAreaElement, CodeInputProps>(
       ensureRegistration();
     }, []);
 
-    // React 19 supports custom elements directly with props and refs
     return (
       <code-input
+        role="textbox"
         ref={ref}
         language={language}
         value={value}

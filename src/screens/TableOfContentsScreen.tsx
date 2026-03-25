@@ -62,7 +62,7 @@ export function TableOfContentsScreen({
   );
 
   return (
-    <>
+    <main>
       <TextBlock text={content.slice(0, revealPosition)} />
 
       {isFinished && (
@@ -84,6 +84,6 @@ export function TableOfContentsScreen({
           ]}
         />
       )}
-    </>
+    </main>
   );
 }
