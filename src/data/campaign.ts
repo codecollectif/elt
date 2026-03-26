@@ -62,7 +62,7 @@ ta voix n'a pas de son.
 Pour laisser une trace,
 tu dois l'écrire.
 
-La commande "console.log()" imprime un message dans le journal système.`,
+La commande "console.log()" affiche un message à l'écran.`,
     },
     {
       id: "d1-p2",
@@ -100,10 +100,14 @@ export const dungeon2: Dungeon = {
 Ici, on ne fait pas que parler dans le vide.
 On pose des questions.
 
-La commande "prompt()" permet d'interroger les ombres.
+La commande "prompt()" affiche une question,
+et donne une réponse au programme.
 
-Pour retenir leur réponse,
-on la stocke dans une "constante" (const) ou une "variable" (let).`,
+Le programme ne sait pas qui répond :
+il ne voit qu’une valeur.
+
+Pour retenir cette valeur,
+on la stocke dans une "constante" ("const") ou une "variable" ("let").`,
     },
     {
       id: "d2-p2",
@@ -120,10 +124,10 @@ on la stocke dans une "constante" (const) ou une "variable" (let).`,
     {
       id: "d2-p3",
       type: "BOSS",
-      concept: "interroge les ombres",
+      concept: "affiche la réponse",
       mockPromptReturns: ["Romain"],
       initialCode:
-        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n\n// Demande son nom à l'écho avec prompt() et stocke-le dans une constante.\n// Affiche ensuite cette constante avec console.log().\n",
+        "// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n\n// Demande un nom avec prompt() et stocke-le dans une constante.\n// Affiche ensuite cette constante avec console.log().\n",
       expectedOutput: "Romain",
     },
   ],
@@ -164,10 +168,10 @@ mais uniquement quand une condition est vraie.`,
     {
       id: "d3-p3",
       type: "BOSS",
-      concept: "à condition que...",
+      concept: "une valeur arrive",
       mockPromptReturns: ["15"],
       initialCode:
-        '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// Un voyageur approche. Demande-lui son âge via prompt().\n// Si l\'âge est < 18, affiche "Trop jeune !"\n// puis affiche "Reviens dans X ans." (où X = 18 - age).\n',
+        '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n\n// Le programme ne sait pas qui répond :\n// il ne voit qu\'une valeur.\n\n// Demande un âge via prompt().\n// Si l\'âge est < 18, affiche "Trop jeune !"\n// puis affiche "Reviens dans X ans." (où X = 18 - age).\n',
       expectedOutput: "Trop jeune !\nReviens dans 3 ans.",
     },
   ],
@@ -186,7 +190,7 @@ Chaque marche est identique à la précédente.
 
 À quoi bon répéter la même chose 10 fois ?
 
-L'instruction "while" ("tant que") permet de répéter un bloc de code.
+Le mot-clé "while" ("tant que") permet de répéter un bloc de code.
 
 Attention : si la condition est toujours vraie,
 la boucle ne s'arrêtera jamais !`,
@@ -223,13 +227,18 @@ export const dungeon5: Dungeon = {
       id: "d5-p1",
       type: "NARRATIVE",
       content: `Le sol tremble.
-Le Gardien apparaît.
+Le Gardien apparaît et bloque la dernière porte.
 
-Il bloque la sortie.
-Il exige de voir ce que tu as compris :
-comment maîtriser le temps et les actions.
+Mais ce n’est pas lui qui décide.
 
-Montre-lui.`,
+Des réponses apparaissent, une par une.
+
+Rappelle-toi !
+
+Le programme ne sait pas qui répond :
+il ne voit que des valeurs.
+
+C’est tout ce dont tu as besoin.`,
     },
     {
       id: "d5-p2",
@@ -237,7 +246,7 @@ Montre-lui.`,
       concept: "à toi de jouer",
       mockPromptReturns: ["Non", "Jamais", "Oui"],
       initialCode:
-        '// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n// while (condition) { repeatSomething(); }\n\n// Tant que le Gardien ne répond pas "Oui":\n// 1. Demande-lui "Tu m\'ouvres ?" via prompt().\n// 2. S\'il répond "Non", affiche "Sésame".\n// 3. S\'il répond "Jamais", affiche "Pitié".\n// Après qu\'il ait dit "Oui", affiche "J\'entre".\nlet answer = "";\n',
+        `// Ce que tu connais :\n// console.log(expression);\n// const answer = prompt(question);\n// if (condition) { doSomething(); }\n// while (condition) { repeatSomething(); }\n\n// Ton programme reçoit une suite de réponses, comme un test.\n\n// Tant que la réponse n'est pas "Oui", boucle :\n// 1. Utilise prompt("Tu m'ouvres ?") pour obtenir une réponse.\n// 2. Récupère la réponse.\n// 3. Si la réponse est "Non", affiche "Sésame".\n// 4. Si la réponse est "Jamais", affiche "Pitié".\n// Après la boucle, affiche "J\'entre".\nlet answer = "";\n`,
       expectedOutput: "Sésame\nPitié\nJ'entre",
     },
   ],
@@ -254,7 +263,7 @@ export const dungeon6: Dungeon = {
       content: `Le Gardien sourit.
 Le silence revient, paisible et clair.
 
-Les dernières portes s'ouvrent,
+La dernière porte s'ouvre,
 révélant un ciel immense et étoilé.
 
 Tu as appris à parler la langue de ce monde.
